@@ -1,0 +1,3 @@
+[submodule "bundle/colors/twilight_n"]
+	path = bundle/colors/twilight_n
+	url = https://github.com/nikitug/twilight_n.vim
