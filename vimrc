@@ -314,6 +314,9 @@ vmap <C-j> xp'[V']
 " key <,v> edit my vimrc
 nmap <leader>v :tabedit $MYVIMRC<CR>
 
+" key <,vr> reload vimrc
+nmap <leader>vr :so $MYVIMRC<CR>
+
 " key <,y> yank line without indents
 nnoremap ,y ^yg_"_dd
 
@@ -371,6 +374,10 @@ nmap <silent> <leader>cd :lcd %:h<CR>
 " key <,mk> create the directory containing the file in the buffer
 nmap <silent> <leader>mk :!mkdir -p %:p:h<CR>
 
+" key <+> fold code till matched bracket
+map + v%zf
+
+
 
 "
 " ## Auto Commands
@@ -411,7 +418,7 @@ if has("autocmd")
   " Treat JSON files like JavaScript
   autocmd BufNewFile,BufRead *.json set ft=javascript
 
-  " make Python follow PEP8 (http://www.python.org/dev/peps/pep-0008/)
-  autocmd FileType python set softtabstop=4 tabstop=4 shiftwidth=4 textwidth=79
+  autocmd FileType python set softtabstop=4 tabstop=4 shiftwidth=4
+  autocmd FileType php set softtabstop=4 tabstop=4 shiftwidth=4
+  autocmd FileType java set softtabstop=4 tabstop=4 shiftwidth=4
 endif
-
