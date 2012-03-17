@@ -324,8 +324,8 @@ nmap <leader>vr :so $MYVIMRC<CR>
 " key <,y> yank line without indents
 nnoremap ,y ^yg_"_dd
 
-" key <,ts> fix trailing white space
-map <leader>ts :%s/\s\+$//e<CR>
+" key <,ws> fix trailing white space
+map <leader>ws :%s/\s\+$//e<CR>
 
 " Check: https://github.com/jeetsukumaran/vim-buffergator
 " key <,bl> show buffers
@@ -427,3 +427,11 @@ if has("autocmd")
   autocmd FileType php set softtabstop=4 tabstop=4 shiftwidth=4
   autocmd FileType java set softtabstop=4 tabstop=4 shiftwidth=4
 endif
+
+
+
+"
+" ## Plugins
+"
+
+exe "source " . resolve(expand("%:p:h")) . "/vium/plugins.vim"

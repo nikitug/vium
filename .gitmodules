@@ -1,3 +1,75 @@
 [submodule "bundle/colors/twilight_n"]
 	path = bundle/colors/twilight_n
 	url = https://github.com/nikitug/twilight_n.vim
+[submodule "bundle/tools/nerdtree"]
+	path = bundle/tools/nerdtree
+	url = https://github.com/scrooloose/nerdtree.git
+[submodule "bundle/tools/nerdcommenter"]
+	path = bundle/tools/nerdcommenter
+	url = https://github.com/scrooloose/nerdcommenter.git
+[submodule "bundle/tools/ack"]
+	path = bundle/tools/ack
+	url = https://github.com/mileszs/ack.vim.git
+[submodule "bundle/tools/ctrlp"]
+	path = bundle/tools/ctrlp
+	url = https://github.com/kien/ctrlp.vim.git
+[submodule "bundle/tools/zoomwin"]
+	path = bundle/tools/zoomwin
+	url = https://github.com/vim-scripts/ZoomWin.git
+[submodule "bundle/tools/fugitive"]
+	path = bundle/tools/fugitive
+	url = https://github.com/tpope/vim-fugitive.git
+[submodule "bundle/tools/kwbd"]
+	path = bundle/tools/kwbd
+	url = https://github.com/rgarver/Kwbd.vim.git
+[submodule "bundle/tools/tagbar"]
+	path = bundle/tools/tagbar
+	url = https://github.com/majutsushi/tagbar.git
+[submodule "bundle/tools/unimpaired"]
+	path = bundle/tools/unimpaired
+	url = https://github.com/tpope/vim-unimpaired.git
+[submodule "bundle/tools/buffergator"]
+	path = bundle/tools/buffergator
+	url = https://github.com/jeetsukumaran/vim-buffergator
+[submodule "bundle/tools/css-color"]
+	path = bundle/tools/css-color
+	url = https://github.com/ap/vim-css-color
+[submodule "bundle/tools/easymotion"]
+	path = bundle/tools/easymotion
+	url = https://github.com/Lokaltog/vim-easymotion.git
+[submodule "bundle/tools/endwise"]
+	path = bundle/tools/endwise
+	url = https://github.com/tpope/vim-endwise.git
+[submodule "bundle/tools/indent-object"]
+	path = bundle/tools/indent-object
+	url = https://github.com/michaeljsmith/vim-indent-object.git
+[submodule "bundle/tools/matchit"]
+	path = bundle/tools/matchit
+	url = https://github.com/edsono/vim-matchit.git
+[submodule "bundle/tools/narrowregion"]
+	path = bundle/tools/narrowregion
+	url = https://github.com/chrisbra/NrrwRgn.git
+[submodule "bundle/tools/rename2"]
+	path = bundle/tools/rename2
+	url = https://github.com/vim-scripts/Rename2.git
+[submodule "bundle/tools/snipmate"]
+	path = bundle/tools/snipmate
+	url = https://github.com/garbas/vim-snipmate.git
+[submodule "bundle/tools/tlib"]
+	path = bundle/tools/tlib
+	url = https://github.com/tomtom/tlib_vim.git
+[submodule "bundle/tools/addon-mw-utils"]
+	path = bundle/tools/addon-mw-utils
+	url = https://github.com/MarcWeber/vim-addon-mw-utils.git
+[submodule "bundle/tools/snipmate-snippets"]
+	path = bundle/tools/snipmate-snippets
+	url = https://github.com/honza/snipmate-snippets.git
+[submodule "bundle/tools/supertab"]
+	path = bundle/tools/supertab
+	url = https://github.com/ervandew/supertab.git
+[submodule "bundle/tools/surround"]
+	path = bundle/tools/surround
+	url = https://github.com/tpope/vim-surround
+[submodule "bundle/tools/syntastic"]
+	path = bundle/tools/syntastic
+	url = https://github.com/scrooloose/syntastic
