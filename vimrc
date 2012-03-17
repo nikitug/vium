@@ -4,6 +4,10 @@
 
 set nocompatible " disable vi compatibility
 
+call pathogen#infect('~/.vim/bundle/colors')
+call pathogen#infect('~/.vim/bundle/tools')
+call pathogen#infect('~/.vim/bundle/langs')
+
 " Backups
 set backup
 set backupdir=~/.vim/backup
@@ -182,7 +186,7 @@ set fillchars="fold: "  " Remove the extrafills --------
 "
 
 if version >= 700
-  set spell spelllang=en,ru
+  set spell spelllang=
   set nospell " Disable spell check by default
 
   menu Spell.off :setlocal spell spelllang= <cr>
@@ -382,6 +386,7 @@ map + v%zf
 "
 " ## Auto Commands
 "
+
 if has("autocmd")
   " Autosave all buffers
   autocmd FocusLost silent! :wa
