@@ -434,4 +434,4 @@ endif
 " ## Plugins
 "
 
-exe "source " . resolve(expand("%:p:h")) . "/vium/plugins.vim"
+exe "source " . fnamemodify(resolve($MYVIMRC), ":p:h") . "/vium/plugins.vim"
