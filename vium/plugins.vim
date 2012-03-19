@@ -116,3 +116,9 @@ map <leader>tb :TagbarToggle<CR>
 " ## RVM
 "
 autocmd BufEnter * Rvm
+
+
+"
+" ## CtrlP
+"
+let g:ctrlp_prompt_mappings = { 'AcceptSelection("t")': ['<c-t>'] }
