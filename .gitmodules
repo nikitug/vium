@@ -124,3 +124,6 @@
 [submodule "bundle/langs/textile"]
 	path = bundle/langs/textile
 	url = https://github.com/timcharper/textile.vim.git
+[submodule "bundle/tools/rvm"]
+	path = bundle/tools/rvm
+	url = https://github.com/tpope/vim-rvm.git

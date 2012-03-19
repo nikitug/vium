@@ -110,3 +110,9 @@ let g:syntastic_quiet_warnings=0
 "
 " key <,tb> toggle tagbar
 map <leader>tb :TagbarToggle<CR>
+
+
+"
+" ## RVM
+"
+autocmd BufEnter * Rvm
