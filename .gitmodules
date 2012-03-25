@@ -127,3 +127,6 @@
 [submodule "bundle/tools/rvm"]
 	path = bundle/tools/rvm
 	url = https://github.com/tpope/vim-rvm.git
+[submodule "bundle/langs/go"]
+	path = bundle/langs/go
+	url = https://github.com/jnwhiteh/vim-golang
