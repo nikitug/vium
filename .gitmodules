@@ -130,3 +130,9 @@
 [submodule "bundle/langs/go"]
 	path = bundle/langs/go
 	url = https://github.com/jnwhiteh/vim-golang
+[submodule "bundle/tools/guicolorscheme"]
+	path = bundle/tools/guicolorscheme
+	url = https://github.com/thinca/vim-guicolorscheme.git
+[submodule "bundle/tools/csapprox"]
+	path = bundle/tools/csapprox
+	url = https://github.com/godlygeek/csapprox.git
