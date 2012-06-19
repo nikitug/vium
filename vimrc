@@ -457,6 +457,8 @@ if has("autocmd")
   " Treat JSON files like JavaScript
   autocmd BufNewFile,BufRead *.json set ft=javascript
 
+  autocmd BufNewFile,BufRead *.lxbuilder set ft=ruby
+
   autocmd FileType python set softtabstop=4 tabstop=4 shiftwidth=4
   autocmd FileType php set softtabstop=4 tabstop=4 shiftwidth=4
   autocmd FileType java set softtabstop=4 tabstop=4 shiftwidth=4
