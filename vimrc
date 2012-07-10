@@ -14,6 +14,7 @@ set backupdir=~/.vim/backup
 set directory=~/.vim/tmp
 
 syntax enable
+set modelines=0        " Prevent security exploits http://lists.alioth.debian.org/pipermail/pkg-vim-maintainers/2007-June/004020.html
 set nohidden           " Do not let to change buffers without saving
 set autoread           " Automatically reload changes if detected
 set history=700        " Number of things to remember in history
@@ -23,6 +24,8 @@ set clipboard+=unnamed " Yanks go on clipboard instead
 set autowrite          " Writes on make/shell commands
 set timeoutlen=350     " Time to wait for a command
 set foldlevelstart=99  " No folds closed on start
+set showmode           " Show mode at the bottom
+set ttyfast
 
 " Searching
 set ignorecase  " Case insensitive search
@@ -134,6 +137,8 @@ set gcr=n:blinkon0  " do not blink cursor in normal mode
 
 if version >= 703
   set colorcolumn=120
+  set relativenumber
+  set undofile
 en
 
 " new splits below and right
@@ -164,7 +169,7 @@ set linespace=1     " space between lines
 set wrap            " http://vimcasts.org/episodes/soft-wrapping-text/
 set linebreak
 set list            " display unprintable characters
-set formatoptions=crql
+set formatoptions=crqln1   " :h fo-table
 
 " Tab and EOL symbols
 if has('multi_byte')
@@ -279,6 +284,10 @@ let mapleader=","
 
 set pastetoggle=<Leader>p
 
+" Perl regexps be default
+nnoremap / /\v
+vnoremap / /\v
+
 " Fixes common typos
 command! W w
 command! Q q
@@ -349,17 +358,17 @@ vmap <C-k> xkP'[V']
 vmap <C-j> xp'[V']
 
 
-" key <,v> edit my vimrc
-nmap <leader>v :tabedit $MYVIMRC<CR>
+" key <,ev> edit my vimrc
+nmap <leader>ev :tabedit $MYVIMRC<CR>
 
-" key <,vr> reload vimrc
-nmap <leader>vr :so $MYVIMRC<CR>
+" key <,rv> reload vimrc
+nmap <leader>rv :so $MYVIMRC<CR>
 
 " key <,y> yank line without indents
 nnoremap ,y ^yg_"_dd
 
 " key <,ws> fix trailing white space
-map <leader>ws :%s/\s\+$//e<CR>
+map <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
 
 " Check: https://github.com/jeetsukumaran/vim-buffergator
 " key <,bl> show buffers
@@ -382,15 +391,6 @@ cnoremap <c-a> <home>
 imap     <c-a> <c-o>^
 map      <c-a> ^
 
-" key <,ew> :e %%
-map <leader>ew :e <c-r>=expand('%:h').'/'<cr>
-" key <,es> :sp %%
-map <leader>es :sp <C-R>=expand('%:h').'/'<cr>
-" key <,ev> :vsp %%
-map <leader>ev :vsp <C-R>=expand('%:h').'/'<cr>
-" key <,et> :tabe %%
-map <leader>et :tabe <C-R>=expand('%:h').'/'<cr>
-
 " key <,ul> underline the current line with '='
 nmap <silent> <leader>ul :t.\|s/./=/g\|:nohls<cr>
 
@@ -402,6 +402,9 @@ nmap <silent> <leader>fc <ESC>/\v^[<=>]{7}( .*\|$)<CR>
 
 " key <,hs> toggle hlsearch with
 nmap <leader>hs :set hlsearch! hlsearch?<CR>
+
+" key <,<space>> clean search hl
+nmap <leader><space> :noh<cr>
 
 " key <,fef> reformat the entire file
 nmap <leader>fef mQggVG=`Q
@@ -415,6 +418,15 @@ nmap <silent> <leader>mk :!mkdir -p %:p:h<CR>
 " key <+> fold code till matched bracket
 map + v%zf
 
+" use <tab> to match brackets
+nnoremap <tab> %
+vnoremap <tab> %
+
+" key <,v> reselect pasted text
+nnoremap <leader>v V`]
+
+" key <jj> <ESC>
+inoremap jj <ESC>
 
 
 "
