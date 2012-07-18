@@ -1,0 +1,23 @@
+snippet shld
+	should "${1}" do
+	end
+snippet teard
+	teardown do
+		${1}
+	end
+snippet setup
+	setup do
+		${1}
+	end
+snippet asse
+	assert_equal
+snippet astest
+	require "test_helper"
+
+	class ${1}Test < ActiveSupport::TestCase
+	end
+snippet actest
+	require "test_helper"
+
+	class ${1}ControllerTest < ActionController::TestCase
+	end
