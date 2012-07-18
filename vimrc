@@ -8,6 +8,8 @@ call pathogen#infect('~/.vim/bundle/colors')
 call pathogen#infect('~/.vim/bundle/tools')
 call pathogen#infect('~/.vim/bundle/langs')
 
+set shell=/bin/bash\ -i
+
 " Backups
 set backup
 set backupdir=~/.vim/backup
