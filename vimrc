@@ -427,8 +427,8 @@ vnoremap <tab> %
 " key <,v> reselect pasted text
 nnoremap <leader>v V`]
 
-" key <jj> <ESC>
-inoremap jj <ESC>
+" key <,gr> go run %
+nmap <leader>gr :w<CR>:!go run %<TAB><CR>
 
 
 "
@@ -476,6 +476,15 @@ if has("autocmd")
   autocmd FileType python set softtabstop=4 tabstop=4 shiftwidth=4
   autocmd FileType php set softtabstop=4 tabstop=4 shiftwidth=4
   autocmd FileType java set softtabstop=4 tabstop=4 shiftwidth=4
+
+  autocmd FileType go set softtabstop=4 tabstop=4 shiftwidth=4 noexpandtab
+  autocmd FileType godoc set softtabstop=8 tabstop=8 shiftwidth=8 noexpandtab
+
+  if has('multi_byte')
+    if version >= 700
+      autocmd FileType go set listchars=tab:\ \ ,trail:·,extends:❯,precedes:❮,nbsp:×
+    endif
+  endif
 endif
 
 
