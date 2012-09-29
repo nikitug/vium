@@ -58,7 +58,7 @@ set complete+=U
 "
 
 if has('gui_macvim')
-  set guifont=Monaco:h13
+  set guifont=Monaco:h15
 
   " Use option (alt) as meta key.
   set macmeta
