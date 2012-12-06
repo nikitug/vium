@@ -286,10 +286,6 @@ let mapleader=","
 
 set pastetoggle=<Leader>p
 
-" Perl regexps be default
-nnoremap / /\v
-vnoremap / /\v
-
 " Fixes common typos
 command! W w
 command! Q q
@@ -328,7 +324,7 @@ noremap K <nop>
 
 " Make line completion easier
 " key <C-l> full line completion
-imap <C-l> <C-x><C-l
+imap <C-l> <C-x><C-l>
 
 " Toggle spelling mode with ,s
 " key <,sp> toggle spell
