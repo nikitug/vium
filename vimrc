@@ -426,6 +426,21 @@ nnoremap <leader>v V`]
 " key <,gr> go run %
 nmap <leader>gr :w<CR>:!go run %<TAB><CR>
 
+" key <c-tab>, <c-s-tab> cycle tabs forward and backward
+nmap <c-tab> :tabnext<cr>
+nmap <c-s-tab> :tabprevious<cr>
+
+" key <c-#> switches to tab
+nmap <d-1> 1gt
+nmap <d-2> 2gt
+nmap <d-3> 3gt
+nmap <d-4> 4gt
+nmap <d-5> 5gt
+nmap <d-6> 6gt
+nmap <d-7> 7gt
+nmap <d-8> 8gt
+nmap <d-9> 9gt
+
 
 "
 " ## Auto Commands
