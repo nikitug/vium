@@ -132,14 +132,14 @@ set wildmenu        " Turn on WiLd menu
 set showmatch       " Show matching brackets.
 set matchtime=2     " How many tenths of a second to blink
 set showcmd         " Show command in the last line
-set scrolloff=3     " Keep at least 3 lines above and below the cursor
+"set scrolloff=3     " Keep at least 3 lines above and below the cursor
 set showtabline=1   " Show tabline only if there are at least two tab pages
 set cursorline      " color current line
 set gcr=n:blinkon0  " do not blink cursor in normal mode
 
 if version >= 703
   set colorcolumn=120
-  set relativenumber
+  "set relativenumber
   set undofile
 en
 
