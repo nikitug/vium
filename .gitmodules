@@ -139,3 +139,6 @@
 [submodule "bundle/tools/bundler"]
 	path = bundle/tools/bundler
 	url = git://github.com/tpope/vim-bundler.git
+[submodule "bundle/tools/preview"]
+	path = bundle/tools/preview
+	url = git@github.com:greyblake/vim-preview.git
