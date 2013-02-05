@@ -10,6 +10,8 @@ let g:snips_trigger_key='<C-space>'
 " key <Backspace> toggle NERDTree
 nnoremap <Bs> :NERDTreeToggle<CR>
 " key <,nf> :NERDTreeFind find current file in NERDTree
+nnoremap <S-Bs> :NERDTree 
+" key <,nf> :NERDTreeFind find current file in NERDTree
 nnoremap <leader>nf :NERDTreeFind<CR>
 
 " exit nerdtree if it's the only window
