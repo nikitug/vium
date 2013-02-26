@@ -1,8 +1,8 @@
-# Vium [![endorse](http://api.coderwall.com/nikitug/endorsecount.png)](http://coderwall.com/nikitug)
+# Vium
 
 Vim distribution I use to get shit done.
 
-Here is how it looks with [twilight_n](http://github.com/nikitug/twilight_n.vim) theme.
+Here is how it looks with [twilight\_n](http://github.com/nikitug/twilight_n.vim) theme.
 Also check this theme out even if you are not going to use vium.
 
 ![Vium screenshot](http://nikitug.com/projects/vium/vium4.png)
@@ -19,11 +19,6 @@ git clone git://github.com/nikitug/vium.git ~/.vim
 cd ~/.vim
 git submodule init
 git submodule update
-
-# setup pathoden
-mkdir ~/.vim/autoload
-curl -Sso ~/.vim/autoload/pathogen.vim \
-    https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
 
 # and link vimrc
 ln -s ~/.vim/vimrc ~/.vimrc
