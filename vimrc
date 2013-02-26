@@ -114,8 +114,8 @@ else
 endif
 
 " Default size of window
-set columns=120
-set lines=50
+"set columns=120
+"set lines=50
 
 set anti            " Antialias font
 set ruler           " Ruler on
@@ -380,15 +380,6 @@ nmap <Leader>bn :bn<cr>
 
 " key <gU> <gu> change case
 
-" key <c-e> move to the end of line
-" key <c-a> move to the begining of the line
-cnoremap <c-e> <end>
-imap     <c-e> <c-o>$
-map      <c-e> $
-cnoremap <c-a> <home>
-imap     <c-a> <c-o>^
-map      <c-a> ^
-
 " key <,ul> underline the current line with '='
 nmap <silent> <leader>ul :t.\|s/./=/g\|:nohls<cr>
 
@@ -441,6 +432,11 @@ nmap <d-7> 7gt
 nmap <d-8> 8gt
 nmap <d-9> 9gt
 
+" key <c-e> switch to the previous buffer
+nmap <C-e> :bprev<CR>
+
+" key <c-n> switch to the next buffer
+nmap <C-n> :bnext<CR>
 
 "
 " ## Auto Commands
