@@ -432,8 +432,8 @@ nmap <d-7> 7gt
 nmap <d-8> 8gt
 nmap <d-9> 9gt
 
-" key <c-e> switch to the previous buffer
-nmap <C-e> :bprev<CR>
+" key <c-p> switch to the previous buffer
+nmap <C-p> :bprev<CR>
 
 " key <c-n> switch to the next buffer
 nmap <C-n> :bnext<CR>
