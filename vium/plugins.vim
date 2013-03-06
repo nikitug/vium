@@ -41,14 +41,14 @@ function! s:CdIfDirectory(directory)
   endif
 
   if directory
-    NERDTree
-    wincmd p
+    "NERDTree
+    "wincmd p
     bd
   endif
 
-  if explicitDirectory
-    wincmd p
-  endif
+  "if explicitDirectory
+    "wincmd p
+  "endif
 endfunction
 
 " NERDTree utility function
@@ -131,3 +131,7 @@ let g:ctrlp_working_path_mode = 0
 let g:ctrlp_dotfiles = 0
 let g:ctrlp_switch_buffer = 0
 
+"
+" ## GitGutter
+"
+let g:gitgutter_enabled = 0
