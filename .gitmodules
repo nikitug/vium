@@ -142,3 +142,6 @@
 [submodule "bundle/tools/preview"]
 	path = bundle/tools/preview
 	url = git@github.com:greyblake/vim-preview.git
+[submodule "bundle/tools/gitgutter"]
+	path = bundle/tools/gitgutter
+	url = https://github.com/airblade/vim-gitgutter.git
