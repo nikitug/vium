@@ -63,7 +63,7 @@
 	url = https://github.com/MarcWeber/vim-addon-mw-utils.git
 [submodule "bundle/tools/snipmate-snippets"]
 	path = bundle/tools/snipmate-snippets
-	url = https://github.com/honza/snipmate-snippets.git
+	url = https://github.com/honza/vim-snippets.git
 [submodule "bundle/tools/supertab"]
 	path = bundle/tools/supertab
 	url = https://github.com/ervandew/supertab.git
