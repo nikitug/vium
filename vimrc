@@ -190,6 +190,13 @@ endif
 
 
 "
+" ## Diff tool
+"
+set diffopt+=iwhite
+
+
+
+"
 " ## Folding
 "
 
@@ -383,8 +390,8 @@ nmap <Leader>bn :bn<cr>
 " key <,ul> underline the current line with '='
 nmap <silent> <leader>ul :t.\|s/./=/g\|:nohls<cr>
 
-" key <,tw> set text wrapping toggles
-nmap <silent> <leader>tw :set invwrap wrap?<CR>
+" key <,w> set text wrapping toggles
+nmap <silent> <leader>w :set invwrap wrap?<CR>
 
 " key <,fc> find merge conflict markers
 nmap <silent> <leader>fc <ESC>/\v^[<=>]{7}( .*\|$)<CR>
@@ -422,6 +429,15 @@ nmap <c-tab> :tabnext<cr>
 nmap <c-s-tab> :tabprevious<cr>
 
 " key <c-#> switches to tab
+nmap <d-s-1> 1gt
+nmap <d-s-2> 2gt
+nmap <d-s-3> 3gt
+nmap <d-s-4> 4gt
+nmap <d-s-5> 5gt
+nmap <d-s-6> 6gt
+nmap <d-s-7> 7gt
+nmap <d-s-8> 8gt
+nmap <d-s-9> 9gt
 nmap <d-1> 1gt
 nmap <d-2> 2gt
 nmap <d-3> 3gt
