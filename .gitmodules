@@ -145,3 +145,6 @@
 [submodule "bundle/tools/gitgutter"]
 	path = bundle/tools/gitgutter
 	url = https://github.com/airblade/vim-gitgutter.git
+[submodule "bundle/tools/latex-suite"]
+	path = bundle/tools/latex-suite
+	url = git://github.com/gerw/vim-latex-suite.git
