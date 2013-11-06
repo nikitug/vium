@@ -1,7 +1,8 @@
 "
 " ## SnipMate
 "
-let g:snips_trigger_key='<C-space>'
+imap <C-Space> <Plug>snipMateNextOrTrigger
+smap <C-Space> <Plug>vnipMateNextOrTrigger
 
 "
 " ## NERDTree
@@ -135,3 +136,8 @@ let g:ctrlp_switch_buffer = 0
 " ## GitGutter
 "
 let g:gitgutter_enabled = 0
+
+"
+" ## Tex
+"
+map <C-S-space> <Plug>IMAP_JumpForward
