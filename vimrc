@@ -252,34 +252,7 @@ endif
 "
 " ## Statusline
 "
-
-function! FileSize()
-  let bytes = getfsize(expand("%:p"))
-  if bytes <= 0
-    return ""
-  endif
-  if bytes < 1024
-    return bytes . "B"
-  else
-    return (bytes / 1024) . "K"
-  endif
-endfunction
-
-set laststatus=2                     " always show the status bar
-set statusline=\ 
-set statusline+=%n:\                 " buffer number
-set statusline+=%t                   " filename with full path
-set statusline+=%m                   " modified flag
-set statusline+=\ \ 
-set statusline+=%{&paste?'[paste]\ ':''}
-set statusline+=%{&fileencoding}
-set statusline+=\ \ %Y               " type of file
-set statusline+=\ \ %3.3(%c%)          " column number
-set statusline+=\ %3.9(%l/%L%)     " line / total lines
-set statusline+=[%2.3p%%]            " [percentage]
-set statusline+=\ \ %{FileSize()}
-set statusline+=%<                   " where truncate if line too long
-set statusline+=\ \ %{expand('%:p:~')}
+set laststatus=2   " always show the status bar
 
 
 

@@ -141,3 +141,8 @@ let g:gitgutter_enabled = 0
 " ## Tex
 "
 map <C-S-space> <Plug>IMAP_JumpForward
+
+"
+" ## Powerline
+"
+let g:Powerline_stl_path_style = 'short'
