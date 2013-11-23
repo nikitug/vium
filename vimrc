@@ -152,8 +152,8 @@ endif
 " Folding
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" key <za> open/close current fold
-" key <{zM,zR}> open/close all folds
+" key `<za>` -- open/close current fold
+" key `<{zM,zR}>` -- open/close all folds
 " from https://github.com/sjl/dotfiles/blob/master/vim/.vimrc
 function! MyFoldText()
   let line = getline(v:foldstart)
@@ -234,7 +234,7 @@ noremap k gk
 " Disable man search
 noremap K <nop>
 
-" key <C-{k,j}> move lines up/down
+" key `<C-{k,j}>` -- move lines up/down
 nmap <C-k> [e
 nmap <C-j> ]e
 vmap <C-k> [egv
@@ -242,71 +242,74 @@ vmap <C-j> ]egv
 
 " use :w!! to write to a file using sudo if you forgot to 'sudo vim file'
 " (it will prompt for sudo password when writing)
-" cmd <:w!!> write as sudo
+" cmd `<:w!!>` -- write as sudo
 cmap w!! w !sudo tee % >/dev/null
 
 " double percentage sign in command mode is expanded
 " to directory of current file
-" cmd <%%> current file directory
+" cmd `<%%>` -- current file directory
 cnoremap %% <C-R>=expand('%:p').'/'<cr>
 
-" key <,<space>> clean search hl
+" show generated vimrc doc
+command Mydoc :!$HOME/.vim/gen_doc.sh \|more
+
+" key `<,<space>>` -- clean search hl
 nmap <leader><space> :nohlsearch<cr>
-" key <Esc><Esc> no hilight search
+" key `<Esc><Esc>` -- no hilight search
 nnoremap <silent> <Esc><Esc> :nohlsearch<CR><Esc>
 
-" key <,sp> toggle spelling mode
+" key `<,sp>` -- toggle spelling mode
 nmap <leader>sp :set spell! spelllang=ru,en spell?<CR>
 
-" key <,w> toggle wrapping
+" key `<,w>` -- toggle wrapping
 nmap <silent> <leader>w :set invwrap wrap?<CR>
 
-" key <,hs> toggle hlsearch with
+" key `<,hs>` -- toggle hlsearch with
 nmap <leader>hs :set hlsearch! hlsearch?<CR>
 
-" key <,p> toggle paste mode
+" key `<,p>` -- toggle paste mode
 nmap <leader>p :set paste! paste?<cr>
 
-" key <,s> :%s##
+" key `<,s>` -- :%s##
 nnoremap <leader>s :%s##<left>
 
-" key <,W> fix trailing white space
+" key `<,W>` -- fix trailing white space
 map <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
 
-" key <,cd> cd to the directory containing the file in the buffer
+" key `<,cd>` -- cd to the directory containing the file in the buffer
 nmap <silent> <leader>cd :lcd %:h<CR>
 
-" key <,mk> create the directory containing the file in the buffer
+" key `<,mk>` -- create the directory containing the file in the buffer
 nmap <silent> <leader>mk :!mkdir -p %:p:h<CR>
 
 """" Experimental
 
-" key <,=> underline the current line with '='
+" key `<,=>` -- underline the current line with '='
 nmap <silent> <leader>= :t.\|s/./=/g\|:nohls<cr>
 
-" key <,ev> edit my vimrc
+" key `<,ev>` -- edit my vimrc
 nmap <leader>ev :tabedit $MYVIMRC<CR>
-" key <,rv> reload vimrc
+" key `<,rv>` -- reload vimrc
 nmap <leader>rv :so $MYVIMRC<CR>
 
-" key <,fef> reformat the entire file
+" key `<,fef>` -- reformat the entire file
 nmap <leader>fef mQggVG=`Q
 
-" key <+> fold code till matched bracket
+" key `<+>` -- fold code till matched bracket
 map + v%zf
 
-" key <,v> reselect pasted text
+" key `<,v>` -- reselect pasted text
 nnoremap <leader>v V`]
 
 """" Tabs/buffers navigation
 
-" key <,bl> show buffers
+" key `<,bl>` -- show buffers
 nmap <Leader>bl :ls<cr>:b
 
-" key <c-tab>, <c-s-tab> cycle tabs forward and backward
+" key `<c-tab>, <c-s-tab>` -- cycle tabs forward and backward
 nmap <c-tab> :tabnext<cr>
 nmap <c-s-tab> :tabprevious<cr>
-" key <c-#> switches to tab
+" key `<c-#>` -- switches to tab
 nmap <d-s-1> 1gt
 nmap <d-s-2> 2gt
 nmap <d-s-3> 3gt
@@ -369,13 +372,13 @@ if has("autocmd")
   autocmd FileType java set softtabstop=4 tabstop=4 shiftwidth=4
 
   " Ruby
-  " key <,R> (ft=ruby) !ruby %
+  " key `<,R>` -- (ft=ruby) !ruby %
   autocmd FileType ruby nmap <buffer> <leader>R :w<CR>:!ruby %<TAB><CR>
 
   " Golang
   autocmd FileType go set softtabstop=4 tabstop=4 shiftwidth=4 noexpandtab
   autocmd FileType godoc set softtabstop=8 tabstop=8 shiftwidth=8 noexpandtab
-  " key <,R> (ft=go) !go run %
+  " key `<,R>` -- (ft=go) !go run %
   autocmd FileType go nmap <buffer> <leader>R :w<CR>:!go run %<TAB><CR>
   if has('multi_byte')
     if version >= 700
@@ -393,7 +396,7 @@ endif
 
 """" Git
 command! GdiffInTab tabedit %|Gdiff
-" key <,d> Git diff in tab
+" key `<,d>` -- Git diff in tab
 nnoremap <leader>d :GdiffInTab<cr>
 
 """" CSApprox
@@ -404,20 +407,20 @@ imap <C-Space> <Plug>snipMateNextOrTrigger
 smap <C-Space> <Plug>vnipMateNextOrTrigger
 
 """" Ack
-" key <,f> :Ack
+" key `<,f>` -- :Ack
 map <leader>f :Ack<space>
 
 
 """" ZoomWin
-" key <,zw> Toggle ZoomWin
+" key `<,zw>` -- Toggle ZoomWin
 map <leader>zw :ZoomWin<CR>
 
 """" Gundo
-" key <,u> Toggle Gundo
+" key `<,u>` -- Toggle Gundo
 map <leader>u :GundoToggle<CR>
 
 """" Kwbd
-" key <C-W>! delete buffer without closing window
+" key `<C-W>!` -- delete buffer without closing window
 map <C-W>! <Plug>Kwbd
 
 """" Syntastic
@@ -426,7 +429,7 @@ let g:syntastic_auto_loc_list=2
 let g:syntastic_quiet_warnings=0
 
 """" TagBar
-" key <,ct> toggle tagbar
+" key `<,ct>` -- toggle tagbar
 map <leader>ct :TagbarToggle<CR>
 
 """" CtrlP
@@ -451,11 +454,11 @@ let g:Powerline_stl_path_style = 'short'
 " NERDTree
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" key <Backspace> toggle NERDTree
+" key `<Backspace>` -- toggle NERDTree
 nnoremap <Bs> :NERDTreeToggle<CR>
-" key <S-Backspace> ':NERDTree ' prompt
+" key `<S-Backspace>` -- ':NERDTree ' prompt
 nnoremap <S-Bs> :NERDTree
-" key <,Backspace> :NERDTreeFind find current file in NERDTree
+" key `<,Backspace>` -- :NERDTreeFind find current file in NERDTree
 nnoremap <leader><Bs> :NERDTreeFind<CR>
 
 let NERDTreeIgnore=['\.pyc$', '\.pyo$', '\.rbc$', '\.rbo$', '\.class$', '\.o', '\~$']
