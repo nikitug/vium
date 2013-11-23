@@ -1,6 +1,6 @@
-"
-" ## General
-"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" General
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 set nocompatible " disable vi compatibility
 
@@ -9,25 +9,27 @@ call pathogen#infect('~/.vim/bundle/tools')
 call pathogen#infect('~/.vim/bundle/langs')
 
 set shell=/bin/bash\ -i
+set encoding=utf-8
 
 " Backups
 set backup
-set backupdir=~/.vim/backup
-set directory=~/.vim/tmp
+set backupdir=~/.vim-tmp,~/.tmp,/var/tmp,/tmp
+set directory=~/.vim-tmp,~/.tmp,/var/tmp,/tmp
 
 syntax enable
-set modelines=0        " Prevent security exploits http://lists.alioth.debian.org/pipermail/pkg-vim-maintainers/2007-June/004020.html
+set modeline           " Modelines (comments that set vim options on a per-file basis)
 set nohidden           " Do not let to change buffers without saving
 set autoread           " Automatically reload changes if detected
-set history=700        " Number of things to remember in history
+set history=10000      " Number of things to remember in history
 set undolevels=700     " More undo levels
 set confirm            " Confirmation instead of fails on e.g. :q
 set clipboard+=unnamed " Yanks go on clipboard instead
 set autowrite          " Writes on make/shell commands
-set timeoutlen=350     " Time to wait for a command
+set timeoutlen=500     " Time to wait for a command
 set foldlevelstart=99  " No folds closed on start
 set showmode           " Show mode at the bottom
 set ttyfast
+set diffopt+=iwhite
 
 " Searching
 set ignorecase  " Case insensitive search
@@ -53,22 +55,20 @@ set complete+=U
 
 
 
-"
-" ## User Interface
-"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" User Interface
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+set linespace=1    " in pixels
 if has('gui_macvim')
-  set guifont=Monaco:h15
-
-  " Use option (alt) as meta key.
-  set macmeta
+  set guifont=Inconsolata\ LGC:h14
+  set linespace=-3 " fix Inconsolata LGC
+  set macmeta      " Use option (alt) as meta key.
 elseif has("gui_gtk2")
-  set guifont=Monaco\ 12
+  set guifont=Inconsolata\ LGC\ 12
 endif
 
 if has("gui_running")
-  " TODO check
-  "set guioptions=egmrt
   set guioptions=ai
 endif
 
@@ -77,45 +77,7 @@ set title
 
 " Colorscheme
 set background=dark
-if version >= 700 && &term != 'cygwin' && !has('gui_running')
-  " In the color terminal, try to use CSApprox.vim plugin or
-  " guicolorscheme.vim plugin if possible in order to have consistent
-  " colors on different terminals.
-  "
-  " Uncomment one of the following line to force 256 or 88 colors if
-  " your terminal supports it. Or comment both of them if your terminal
-  " supports neither 256 nor 88 colors. Unfortunately, querying the
-  " number of supported colors does not work on all terminals.
-  set t_Co=88
-  set t_Co=256
-  if &t_Co == 256 || &t_Co == 88
-    " Check whether to use CSApprox.vim plugin or guicolorscheme.vim plugin.
-    if has('gui') &&
-      \ (filereadable(expand("$HOME/.vim/plugin/CSApprox.vim")) ||
-      \  filereadable(expand("$HOME/vimfiles/plugin/CSApprox.vim")))
-      let s:use_CSApprox = 1
-    elseif filereadable(expand("$HOME/.vim/plugin/guicolorscheme.vim")) ||
-      \    filereadable(expand("$HOME/vimfiles/plugin/guicolorscheme.vim"))
-      let s:use_guicolorscheme = 1
-    endif
-  endif
-endif
-if exists('s:use_CSApprox')
-  " Can use the CSApprox.vim plugin.
-  let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
-  colorscheme twilight_n
-elseif exists('s:use_guicolorscheme')
-  " Can use the guicolorscheme plugin. It needs to be loaded before
-  " running GuiColorScheme (hence the :runtime! command).
-  runtime! plugin/guicolorscheme.vim
-  GuiColorScheme twilight_n
-else
-  colorscheme twilight_n
-endif
-
-" Default size of window
-"set columns=120
-"set lines=50
+colorscheme gruvbox
 
 set anti            " Antialias font
 set ruler           " Ruler on
@@ -123,7 +85,6 @@ set nu              " Line numbers on
 set nowrap          " Line wrapping off
 set laststatus=2    " Always show the statusline
 set cmdheight=1
-set encoding=utf-8
 
 " Commands autocomplete options
 set wildmode=list:longest,full
@@ -132,8 +93,7 @@ set wildmenu        " Turn on WiLd menu
 set showmatch       " Show matching brackets.
 set matchtime=2     " How many tenths of a second to blink
 set showcmd         " Show command in the last line
-"set scrolloff=3     " Keep at least 3 lines above and below the cursor
-set showtabline=1   " Show tabline only if there are at least two tab pages
+set showtabline=2   " Show tabline only if there are at least two tab pages
 set cursorline      " color current line
 set gcr=n:blinkon0  " do not blink cursor in normal mode
 
@@ -155,9 +115,9 @@ menu Encoding.cp866 :e ++enc=cp866<CR>
 
 
 
-"
-" ## Text Formatting
-"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Text Formatting
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 set expandtab
 set tabstop=2
@@ -167,7 +127,6 @@ set backspace=indent,eol,start " make backspace work like most other apps
 set cindent
 set autoindent
 set smarttab
-set linespace=1     " space between lines
 set wrap            " http://vimcasts.org/episodes/soft-wrapping-text/
 set linebreak
 set list            " display unprintable characters
@@ -189,16 +148,9 @@ endif
 
 
 
-"
-" ## Diff tool
-"
-set diffopt+=iwhite
-
-
-
-"
-" ## Folding
-"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Folding
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " key <za> open/close current fold
 " key <{zM,zR}> open/close all folds
@@ -229,9 +181,9 @@ set fillchars="fold: "  " Remove the extrafills --------
 
 
 
-"
-" ## Spellcheck
-"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Spellcheck
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 if version >= 700
   set spell spelllang=
@@ -249,39 +201,19 @@ endif
 
 
 
-"
-" ## Statusline
-"
-set laststatus=2   " always show the status bar
-
-
-
-"
-" ## Bindings
-"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Bindings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Set leader to ,
 " Note: This line MUST come before any <leader> mappings
 let mapleader=","
-
-set pastetoggle=<Leader>p
 
 " Fixes common typos
 command! W w
 command! Q q
 map <F1> <Esc>
 imap <F1> <Esc>
-
-" use :w!! to write to a file using sudo if you forgot to 'sudo vim file'
-" (it will prompt for sudo password when writing)
-cmap w!! w !sudo tee % >/dev/null
-
-" double percentage sign in command mode is expanded
-" to directory of current file
-cnoremap %% <C-R>=expand('%:p').'/'<cr>
-
-" Opens file under cursor in new split
-nmap gf :vertical wincmd f<CR>
 
 " Reselect after indenting
 vnoremap < <gv
@@ -302,81 +234,44 @@ noremap k gk
 " Disable man search
 noremap K <nop>
 
-" Make line completion easier
-" key <C-l> full line completion
-imap <C-l> <C-x><C-l>
+" key <C-{k,j}> move lines up/down
+nmap <C-k> [e
+nmap <C-j> ]e
+vmap <C-k> [egv
+vmap <C-j> ]egv
 
-" Toggle spelling mode with ,s
-" key <,sp> toggle spell
-nmap <silent> <leader>sp :set spell!<CR>
+" use :w!! to write to a file using sudo if you forgot to 'sudo vim file'
+" (it will prompt for sudo password when writing)
+" cmd <:w!!> write as sudo
+cmap w!! w !sudo tee % >/dev/null
 
-" Search and replase in all buffers http://vim.wikia.com/wiki/VimTip382
-" key <,r> search and replace in all buffers
-function! Replace()
-  let s:word = input("Replace " . expand('<cword>') . " with:")
-  :exe 'bufdo! %s/\<' . expand('<cword>') . '\>/' . s:word . '/gce'
-  :unlet! s:word
-endfunction
-map <Leader>r :call Replace()<CR>
+" double percentage sign in command mode is expanded
+" to directory of current file
+" cmd <%%> current file directory
+cnoremap %% <C-R>=expand('%:p').'/'<cr>
 
-" Clear the search highlight in Normal mode
+" key <,<space>> clean search hl
+nmap <leader><space> :nohlsearch<cr>
 " key <Esc><Esc> no hilight search
 nnoremap <silent> <Esc><Esc> :nohlsearch<CR><Esc>
 
-" key <,p> toggle paste mode
-" key <,s> :%s##
-nnoremap <leader>s :%s##<left>
+" key <,sp> toggle spelling mode
+nmap <leader>sp :set spell! spelllang=ru,en spell?<CR>
 
-" Move lines
-" check tpope's ]e [e http://www.vim.org/scripts/script.php?script_id=1590
-" key <C-{k,j}> move lines up/down
-nmap <C-k> ddkP
-nmap <C-j> ddp
-vmap <C-k> xkP'[V']
-vmap <C-j> xp'[V']
-
-
-" key <,ev> edit my vimrc
-nmap <leader>ev :tabedit $MYVIMRC<CR>
-
-" key <,rv> reload vimrc
-nmap <leader>rv :so $MYVIMRC<CR>
-
-" key <,y> yank line without indents
-nnoremap ,y ^yg_"_dd
-
-" key <,ws> fix trailing white space
-map <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
-
-" Check: https://github.com/jeetsukumaran/vim-buffergator
-" key <,bl> show buffers
-nmap <Leader>bl :ls<cr>:b
-
-" key <,bp> prev buffer
-nmap <Leader>bp :bp<cr>
-
-" key <,bn> next buffer
-nmap <Leader>bn :bn<cr>
-
-" key <gU> <gu> change case
-
-" key <,ul> underline the current line with '='
-nmap <silent> <leader>ul :t.\|s/./=/g\|:nohls<cr>
-
-" key <,w> set text wrapping toggles
+" key <,w> toggle wrapping
 nmap <silent> <leader>w :set invwrap wrap?<CR>
-
-" key <,fc> find merge conflict markers
-nmap <silent> <leader>fc <ESC>/\v^[<=>]{7}( .*\|$)<CR>
 
 " key <,hs> toggle hlsearch with
 nmap <leader>hs :set hlsearch! hlsearch?<CR>
 
-" key <,<space>> clean search hl
-nmap <leader><space> :noh<cr>
+" key <,p> toggle paste mode
+nmap <leader>p :set paste! paste?<cr>
 
-" key <,fef> reformat the entire file
-nmap <leader>fef mQggVG=`Q
+" key <,s> :%s##
+nnoremap <leader>s :%s##<left>
+
+" key <,ws> fix trailing white space
+map <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
 
 " key <,cd> cd to the directory containing the file in the buffer
 nmap <silent> <leader>cd :lcd %:h<CR>
@@ -384,23 +279,33 @@ nmap <silent> <leader>cd :lcd %:h<CR>
 " key <,mk> create the directory containing the file in the buffer
 nmap <silent> <leader>mk :!mkdir -p %:p:h<CR>
 
+"""" Experimental
+
+" key <,=> underline the current line with '='
+nmap <silent> <leader>= :t.\|s/./=/g\|:nohls<cr>
+
+" key <,ev> edit my vimrc
+nmap <leader>ev :tabedit $MYVIMRC<CR>
+" key <,rv> reload vimrc
+nmap <leader>rv :so $MYVIMRC<CR>
+
+" key <,fef> reformat the entire file
+nmap <leader>fef mQggVG=`Q
+
 " key <+> fold code till matched bracket
 map + v%zf
-
-" use <tab> to match brackets
-nnoremap <tab> %
-vnoremap <tab> %
 
 " key <,v> reselect pasted text
 nnoremap <leader>v V`]
 
-" key <,gr> go run %
-nmap <leader>gr :w<CR>:!go run %<TAB><CR>
+"""" Tabs/buffers navigation
+
+" key <,bl> show buffers
+nmap <Leader>bl :ls<cr>:b
 
 " key <c-tab>, <c-s-tab> cycle tabs forward and backward
 nmap <c-tab> :tabnext<cr>
 nmap <c-s-tab> :tabprevious<cr>
-
 " key <c-#> switches to tab
 nmap <d-s-1> 1gt
 nmap <d-s-2> 2gt
@@ -421,22 +326,15 @@ nmap <d-7> 7gt
 nmap <d-8> 8gt
 nmap <d-9> 9gt
 
-" key <c-p> switch to the previous buffer
-nmap <C-p> :bprev<CR>
 
-" key <c-n> switch to the next buffer
-nmap <C-n> :bnext<CR>
 
-"
-" ## Auto Commands
-"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Auto Commands
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 if has("autocmd")
   " Autosave all buffers
   autocmd FocusLost silent! :wa
-
-  " reload .vimrc, .gvimrc, .vimrc.after and so on
-  autocmd BufWritePost .?vimrc* source $MYVIMRC
 
   " Resize splits when the window is resized
   autocmd VimResized * wincmd =
@@ -450,10 +348,9 @@ if has("autocmd")
 endif
 
 
-
-"
-" ## File Types
-"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" File Types
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 filetype plugin indent on  " automatically detect file types
 
@@ -467,15 +364,15 @@ if has("autocmd")
   " Treat JSON files like JavaScript
   autocmd BufNewFile,BufRead *.json set ft=javascript
 
-  autocmd BufNewFile,BufRead *.lxbuilder set ft=ruby
-
   autocmd FileType python set softtabstop=4 tabstop=4 shiftwidth=4
   autocmd FileType php set softtabstop=4 tabstop=4 shiftwidth=4
   autocmd FileType java set softtabstop=4 tabstop=4 shiftwidth=4
 
+  " Golang
   autocmd FileType go set softtabstop=4 tabstop=4 shiftwidth=4 noexpandtab
   autocmd FileType godoc set softtabstop=8 tabstop=8 shiftwidth=8 noexpandtab
-
+  " key <,gr> go run %
+  autocmd FileType go nmap <buffer> <leader>gr :w<CR>:!go run %<TAB><CR>
   if has('multi_byte')
     if version >= 700
       autocmd FileType go set listchars=tab:\ \ ,trail:·,extends:❯,precedes:❮,nbsp:×
@@ -484,9 +381,134 @@ if has("autocmd")
 endif
 
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Plugins
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"
-" ## Plugins
-"
+" exe "source " . fnamemodify(resolve($MYVIMRC), ":p:h") . "/vium/plugins.vim"
 
-exe "source " . fnamemodify(resolve($MYVIMRC), ":p:h") . "/vium/plugins.vim"
+"""" CSApprox
+let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
+
+"""" SnipMate
+imap <C-Space> <Plug>snipMateNextOrTrigger
+smap <C-Space> <Plug>vnipMateNextOrTrigger
+
+"""" Ack
+" key <,f> :Ack
+map <leader>f :Ack<space>
+
+
+"""" ZoomWin
+" key <,zw> Toggle ZoomWin
+map <leader>zw :ZoomWin<CR>
+
+"""" Gundo
+" key <,u> Toggle Gundo
+map <leader>u :GundoToggle<CR>
+
+"""" Kwbd
+" key <C-W>! delete buffer without closing window
+map <C-W>! <Plug>Kwbd
+
+"""" Syntastic
+let g:syntastic_enable_signs=1
+let g:syntastic_auto_loc_list=2
+let g:syntastic_quiet_warnings=0
+
+"""" TagBar
+" key <,ct> toggle tagbar
+map <leader>ct :TagbarToggle<CR>
+
+"""" CtrlP
+let g:ctrlp_map = '<Leader>t'
+let g:ctrlp_prompt_mappings = { 'AcceptSelection("t")': ['<c-t>'] }
+let g:ctrlp_match_window_bottom = 1
+let g:ctrlp_match_window_reversed = 1
+let g:ctrlp_custom_ignore = '\v\~$|\.(o|swp|pyc|wav|mp3|ogg|blend)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py'
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_dotfiles = 0
+let g:ctrlp_switch_buffer = 0
+
+"""" GitGutter
+let g:gitgutter_enabled = 0
+
+"""" Tex
+map <C-S-space> <Plug>IMAP_JumpForward
+
+"""" Powerline
+let g:Powerline_stl_path_style = 'short'
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" NERDTree
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" key <Backspace> toggle NERDTree
+nnoremap <Bs> :NERDTreeToggle<CR>
+" key <S-Backspace> ':NERDTree ' prompt
+nnoremap <S-Bs> :NERDTree
+" key <,nf> :NERDTreeFind find current file in NERDTree
+nnoremap <leader><Bs> :NERDTreeFind<CR>
+
+let NERDTreeIgnore=['\.pyc$', '\.pyo$', '\.rbc$', '\.rbo$', '\.class$', '\.o', '\~$']
+let NERDTreeHijackNetrw = 0
+let NERDTreeDirArrows=1 " Tells the NERD tree to use arrows instead of + ~ chars when displaying directories.
+
+if has('autocmd')
+  " exit nerdtree if it's the only window
+  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+  augroup AuNERDTreeCmd
+  autocmd AuNERDTreeCmd VimEnter * call s:CdIfDirectory(expand("<amatch>"))
+  autocmd AuNERDTreeCmd FocusGained * call s:UpdateNERDTree()
+
+  " If the parameter is a directory, cd into it
+  function! s:CdIfDirectory(directory)
+    let explicitDirectory = isdirectory(a:directory)
+    let directory = explicitDirectory || empty(a:directory)
+
+    if explicitDirectory
+      exe "cd " . fnameescape(a:directory)
+    endif
+
+    " Allows reading from stdin
+    " ex: git diff | mvim -R -
+    if strlen(a:directory) == 0
+      return
+    endif
+
+    if directory
+      "NERDTree
+      "wincmd p
+      bd
+    endif
+
+    "if explicitDirectory
+      "wincmd p
+    "endif
+  endfunction
+
+  " NERDTree utility function
+  function! s:UpdateNERDTree(...)
+    let stay = 0
+
+    if(exists("a:1"))
+      let stay = a:1
+    end
+
+    if exists("t:NERDTreeBufName")
+      let nr = bufwinnr(t:NERDTreeBufName)
+      if nr != -1
+        exe nr . "wincmd w"
+        exe substitute(mapcheck("R"), "<CR>", "", "")
+        if !stay
+          wincmd p
+        end
+      endif
+    endif
+
+    if exists(":CommandTFlush") == 2
+      CommandTFlush
+    endif
+  endfunction
+endif

@@ -148,3 +148,12 @@
 [submodule "bundle/tools/latex-suite"]
 	path = bundle/tools/latex-suite
 	url = git://github.com/gerw/vim-latex-suite.git
+[submodule "bundle/tools/gundo"]
+	path = bundle/tools/gundo
+	url = git@github.com:sjl/gundo.vim.git
+[submodule "bundle/tools/powerline"]
+	path = bundle/tools/powerline
+	url = git@github.com:Lokaltog/powerline.git
+[submodule "bundle/colors/gruvbox"]
+	path = bundle/colors/gruvbox
+	url = git@github.com:morhetz/gruvbox.git
