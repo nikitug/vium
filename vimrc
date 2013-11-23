@@ -368,11 +368,15 @@ if has("autocmd")
   autocmd FileType php set softtabstop=4 tabstop=4 shiftwidth=4
   autocmd FileType java set softtabstop=4 tabstop=4 shiftwidth=4
 
+  " Ruby
+  " key <,R> (ft=ruby) !ruby %
+  autocmd FileType ruby nmap <buffer> <leader>R :w<CR>:!ruby %<TAB><CR>
+
   " Golang
   autocmd FileType go set softtabstop=4 tabstop=4 shiftwidth=4 noexpandtab
   autocmd FileType godoc set softtabstop=8 tabstop=8 shiftwidth=8 noexpandtab
-  " key <,gr> go run %
-  autocmd FileType go nmap <buffer> <leader>gr :w<CR>:!go run %<TAB><CR>
+  " key <,R> (ft=go) !go run %
+  autocmd FileType go nmap <buffer> <leader>R :w<CR>:!go run %<TAB><CR>
   if has('multi_byte')
     if version >= 700
       autocmd FileType go set listchars=tab:\ \ ,trail:·,extends:❯,precedes:❮,nbsp:×
@@ -386,6 +390,11 @@ endif
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " exe "source " . fnamemodify(resolve($MYVIMRC), ":p:h") . "/vium/plugins.vim"
+
+"""" Git
+command! GdiffInTab tabedit %|Gdiff
+" key <,d> Git diff in tab
+nnoremap <leader>d :GdiffInTab<cr>
 
 """" CSApprox
 let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
@@ -422,13 +431,12 @@ map <leader>ct :TagbarToggle<CR>
 
 """" CtrlP
 let g:ctrlp_map = '<Leader>t'
-let g:ctrlp_prompt_mappings = { 'AcceptSelection("t")': ['<c-t>'] }
 let g:ctrlp_match_window_bottom = 1
 let g:ctrlp_match_window_reversed = 1
 let g:ctrlp_custom_ignore = '\v\~$|\.(o|swp|pyc|wav|mp3|ogg|blend)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py'
 let g:ctrlp_working_path_mode = 0
-let g:ctrlp_dotfiles = 0
-let g:ctrlp_switch_buffer = 0
+"let g:ctrlp_user_command = 'find %s -type f'
+"let g:ctrlp_use_caching = 0
 
 """" GitGutter
 let g:gitgutter_enabled = 0
