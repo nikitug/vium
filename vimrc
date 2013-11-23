@@ -270,7 +270,7 @@ nmap <leader>p :set paste! paste?<cr>
 " key <,s> :%s##
 nnoremap <leader>s :%s##<left>
 
-" key <,ws> fix trailing white space
+" key <,W> fix trailing white space
 map <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
 
 " key <,cd> cd to the directory containing the file in the buffer
@@ -455,7 +455,7 @@ let g:Powerline_stl_path_style = 'short'
 nnoremap <Bs> :NERDTreeToggle<CR>
 " key <S-Backspace> ':NERDTree ' prompt
 nnoremap <S-Bs> :NERDTree
-" key <,nf> :NERDTreeFind find current file in NERDTree
+" key <,Backspace> :NERDTreeFind find current file in NERDTree
 nnoremap <leader><Bs> :NERDTreeFind<CR>
 
 let NERDTreeIgnore=['\.pyc$', '\.pyo$', '\.rbc$', '\.rbo$', '\.class$', '\.o', '\~$']
