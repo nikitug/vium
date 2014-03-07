@@ -8,7 +8,6 @@ call pathogen#infect('~/.vim/bundle/colors')
 call pathogen#infect('~/.vim/bundle/tools')
 call pathogen#infect('~/.vim/bundle/langs')
 
-set shell=/bin/bash\ -i
 set encoding=utf-8
 
 " Backups
@@ -231,8 +230,8 @@ nmap g# g#zz
 noremap j gj
 noremap k gk
 
-" Disable man search
-noremap K <nop>
+" key `K` -- search word under cursor with Ag
+nnoremap K :silent! Ag -i "\b<C-R><C-W>\b"<CR>:cw<CR>:redraw!<CR>
 
 " key `<C-{k,j}>` -- move lines up/down
 nmap <C-k> [e
@@ -251,7 +250,7 @@ cmap w!! w !sudo tee % >/dev/null
 cnoremap %% <C-R>=expand('%:p').'/'<cr>
 
 " show generated vimrc doc
-command Mydoc :!$HOME/.vim/gen_doc.sh \|more
+command! Mydoc :!$HOME/.vim/gen_doc.sh \|more
 
 " key `<,<space>>` -- clean search hl
 nmap <leader><space> :nohlsearch<cr>
@@ -281,6 +280,9 @@ nmap <silent> <leader>cd :lcd %:h<CR>
 
 " key `<,mk>` -- create the directory containing the file in the buffer
 nmap <silent> <leader>mk :!mkdir -p %:p:h<CR>
+
+" key `<,ft>` -- format markdown table
+map <leader>ft V{jo}k:s/----*/---/g<CR>gv:Align \|<CR>j:s/\(\s*\)\(:\)\?\(-*\)\(:\)\?\(\s*\)/\2\1\3\5\4/g<CR>:s/\s/-/g<CR>gv:s/---$/-----------/<CR>:noh<CR>
 
 """" Experimental
 
@@ -362,7 +364,8 @@ if has("autocmd")
   autocmd FileType make set noexpandtab
 
   " Make sure all mardown files have the correct filetype set and setup wrapping
-  autocmd BufNewFile,BufRead *.{md,markdown,mdown,mkd,mkdn,txt} setf markdown
+  autocmd BufNewFile,BufRead *.{md,markdown,mdown,mkd,mkdn,txt,md.erb} setf markdown
+  autocmd BufNewFile,BufRead *.md.erb set ft=markdown
 
   " Treat JSON files like JavaScript
   autocmd BufNewFile,BufRead *.json set ft=javascript
@@ -427,6 +430,7 @@ map <C-W>! <Plug>Kwbd
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=2
 let g:syntastic_quiet_warnings=0
+let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
 
 """" TagBar
 " key `<,ct>` -- toggle tagbar
@@ -450,6 +454,18 @@ map <C-S-space> <Plug>IMAP_JumpForward
 """" Powerline
 let g:Powerline_stl_path_style = 'short'
 
+"""" The Silver Searcher
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NERDTree
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -457,7 +473,7 @@ let g:Powerline_stl_path_style = 'short'
 " key `<Backspace>` -- toggle NERDTree
 nnoremap <Bs> :NERDTreeToggle<CR>
 " key `<S-Backspace>` -- ':NERDTree ' prompt
-nnoremap <S-Bs> :NERDTree
+nnoremap <S-Bs> :NERDTree 
 " key `<,Backspace>` -- :NERDTreeFind find current file in NERDTree
 nnoremap <leader><Bs> :NERDTreeFind<CR>
 
@@ -471,7 +487,6 @@ if has('autocmd')
 
   augroup AuNERDTreeCmd
   autocmd AuNERDTreeCmd VimEnter * call s:CdIfDirectory(expand("<amatch>"))
-  autocmd AuNERDTreeCmd FocusGained * call s:UpdateNERDTree()
 
   " If the parameter is a directory, cd into it
   function! s:CdIfDirectory(directory)
