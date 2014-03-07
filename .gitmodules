@@ -157,3 +157,12 @@
 [submodule "bundle/colors/gruvbox"]
 	path = bundle/colors/gruvbox
 	url = git@github.com:morhetz/gruvbox.git
+[submodule "bundle/tools/ag"]
+	path = bundle/tools/ag
+	url = git://github.com/rking/ag.vim.git
+[submodule "bundle/tools/align"]
+	path = bundle/tools/align
+	url = https://github.com/vim-scripts/Align.git
+[submodule "bundle/langs/slim"]
+	path = bundle/langs/slim
+	url = git://github.com/slim-template/vim-slim.git
