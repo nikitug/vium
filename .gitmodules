@@ -151,9 +151,6 @@
 [submodule "bundle/tools/gundo"]
 	path = bundle/tools/gundo
 	url = git@github.com:sjl/gundo.vim.git
-[submodule "bundle/tools/powerline"]
-	path = bundle/tools/powerline
-	url = git@github.com:Lokaltog/powerline.git
 [submodule "bundle/colors/gruvbox"]
 	path = bundle/colors/gruvbox
 	url = git@github.com:morhetz/gruvbox.git
@@ -166,3 +163,6 @@
 [submodule "bundle/langs/slim"]
 	path = bundle/langs/slim
 	url = git://github.com/slim-template/vim-slim.git
+[submodule "bundle/tools/airline"]
+	path = bundle/tools/airline
+	url = https://github.com/bling/vim-airline
