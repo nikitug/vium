@@ -166,3 +166,9 @@
 [submodule "bundle/tools/airline"]
 	path = bundle/tools/airline
 	url = https://github.com/bling/vim-airline
+[submodule "bundle/tools/editorconfig"]
+	path = bundle/tools/editorconfig
+	url = https://github.com/editorconfig/editorconfig-vim.git
+[submodule "bundle/langs/docker"]
+	path = bundle/langs/docker
+	url = https://github.com/ekalinin/Dockerfile.vim.git
