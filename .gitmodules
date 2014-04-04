@@ -138,31 +138,31 @@
 	url = https://github.com/godlygeek/csapprox.git
 [submodule "bundle/tools/bundler"]
 	path = bundle/tools/bundler
-	url = git://github.com/tpope/vim-bundler.git
+	url = https://github.com/tpope/vim-bundler.git
 [submodule "bundle/tools/preview"]
 	path = bundle/tools/preview
-	url = git@github.com:greyblake/vim-preview.git
+	url = https://github.com/greyblake/vim-preview.git
 [submodule "bundle/tools/gitgutter"]
 	path = bundle/tools/gitgutter
 	url = https://github.com/airblade/vim-gitgutter.git
 [submodule "bundle/tools/latex-suite"]
 	path = bundle/tools/latex-suite
-	url = git://github.com/gerw/vim-latex-suite.git
+	url = https://github.com/gerw/vim-latex-suite.git
 [submodule "bundle/tools/gundo"]
 	path = bundle/tools/gundo
-	url = git@github.com:sjl/gundo.vim.git
+	url = https://github.com/sjl/gundo.vim.git
 [submodule "bundle/colors/gruvbox"]
 	path = bundle/colors/gruvbox
-	url = git@github.com:morhetz/gruvbox.git
+	url = https://github.com/morhetz/gruvbox.git
 [submodule "bundle/tools/ag"]
 	path = bundle/tools/ag
-	url = git://github.com/rking/ag.vim.git
+	url = https://github.com/rking/ag.vim.git
 [submodule "bundle/tools/align"]
 	path = bundle/tools/align
 	url = https://github.com/vim-scripts/Align.git
 [submodule "bundle/langs/slim"]
 	path = bundle/langs/slim
-	url = git://github.com/slim-template/vim-slim.git
+	url = https://github.com/slim-template/vim-slim.git
 [submodule "bundle/tools/airline"]
 	path = bundle/tools/airline
 	url = https://github.com/bling/vim-airline
