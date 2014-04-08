@@ -172,3 +172,9 @@
 [submodule "bundle/langs/docker"]
 	path = bundle/langs/docker
 	url = https://github.com/ekalinin/Dockerfile.vim.git
+[submodule "bundle/tools/projectile"]
+	path = bundle/tools/projectile
+	url = git://github.com/tpope/vim-projectile.git
+[submodule "bundle/tools/rake"]
+	path = bundle/tools/rake
+	url = git://github.com/tpope/vim-rake.git
