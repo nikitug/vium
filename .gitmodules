@@ -178,3 +178,6 @@
 [submodule "bundle/tools/rake"]
 	path = bundle/tools/rake
 	url = git://github.com/tpope/vim-rake.git
+[submodule "bundle/tools/dash"]
+	path = bundle/tools/dash
+	url = https://github.com/rizzatti/dash.vim.git
