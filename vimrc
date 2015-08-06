@@ -399,8 +399,8 @@ endif
 
 """" Git
 command! GdiffInTab tabedit %|Gdiff
-" key `<,d>` -- Git diff in tab
-nnoremap <leader>d :GdiffInTab<cr>
+" key `<,D>` -- Git diff in tab
+nnoremap <leader>D :GdiffInTab<cr>
 
 """" CSApprox
 let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
@@ -417,6 +417,10 @@ map <leader>f :Ack<space>
 """" ZoomWin
 " key `<,zw>` -- Toggle ZoomWin
 map <leader>zw :ZoomWin<CR>
+
+"""" Dash
+" key `<,d>` -- Toggle Dash
+map <leader>d :Dash<CR>
 
 """" Gundo
 " key `<,u>` -- Toggle Gundo
