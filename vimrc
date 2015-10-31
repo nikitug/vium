@@ -60,7 +60,7 @@ set complete+=U
 
 set linespace=1    " in pixels
 if has('gui_macvim')
-  set guifont=Inconsolata\ LGC:h14
+  set guifont=Hack:h14
   set linespace=-3 " fix Inconsolata LGC
   set macmeta      " Use option (alt) as meta key.
 elseif has("gui_gtk2")
