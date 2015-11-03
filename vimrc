@@ -470,6 +470,10 @@ if executable('ag')
   let g:ctrlp_use_caching = 0
 endif
 
+"""" Haste
+" command `Haste` pastes lines to hastebin
+command! -range=% Haste <line1>,<line2>w !haste | tee >(pbcopy)
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NERDTree
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
