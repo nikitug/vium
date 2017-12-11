@@ -1,25 +1,78 @@
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" General
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set nocompatible
+filetype off
 
-set nocompatible " disable vi compatibility
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
-call pathogen#infect('~/.vim/bundle/colors')
-call pathogen#infect('~/.vim/bundle/tools')
-call pathogen#infect('~/.vim/bundle/langs')
+" Tools
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'tpope/vim-fugitive'              " :Gblame etc.
+Plugin 'scrooloose/nerdtree'             " <Bs>
+Plugin 'majutsushi/tagbar'               " <D-Bs>
+Plugin 'tpope/vim-endwise'               " smart `end` apptender
+Plugin 'tmhedberg/matchit'               " % improver
+Plugin 'mileszs/ack.vim'                 " :Ack
+Plugin 'tpope/vim-surround'              " <cs'">, <ysiw'>, <ds'>
+Plugin 'tpope/vim-repeat'                " . improver
+Plugin 'w0rp/ale'                        " async syntax checker
+Plugin 'godlygeek/tabular'               " :Tab /=\zs
+Plugin 'scrooloose/nerdcommenter'        " <,c >
+" Plugin 'junegunn/fzf.vim'              " unusable yet comparing to ctrlp
+Plugin 'ctrlpvim/ctrlp.vim'              " <,t>
+Plugin 'j5shi/ctrlp_bdelete.vim'         " <c-@> to close buffer in CtrlP
+Plugin 'michaeljsmith/vim-indent-object' " indent text object, <ii>
+Plugin 'farmergreg/vim-lastplace'        " open files in last edited place
+Plugin 'haya14busa/incsearch.vim'        " better incremental search
+Plugin 'haya14busa/incsearch-fuzzy.vim'  " <leader-/> fuzzy search
+Plugin 'ap/vim-css-color'                " background for colors like #000
+Plugin 'rizzatti/dash.vim'               " Dash.app commands
+Plugin 'airblade/vim-gitgutter'          " shows git changes
+Plugin 'sjl/gundo.vim'                   " undo tree :Gundo
+Plugin 'tpope/vim-projectionist'         " configure alternate files etc.
+Plugin 'Shougo/deoplete.nvim'            " complete engine
+Plugin 'roxma/nvim-yarp'                 " required for deoplete
+Plugin 'roxma/vim-hug-neovim-rpc'        " required for deoplete
+Plugin 'tpope/vim-unimpaired'            " [b ]b etc.
+Plugin 'tpope/vim-rhubarb'               " :Gbrowse opens in GitHub
+Plugin 'vim-airline/vim-airline'         " status line
+Plugin 'tpope/vim-sleuth'                " auto tabstop etc
+Plugin 'kshenoy/vim-signature'           " marks highlight and navigation, <ma> <'a>
+
+" Colors http://vimcolors.com/
+Plugin 'jaywilliams/vim-vwilight'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'morhetz/gruvbox'
+Plugin 'w0ng/vim-hybrid'
+Plugin 'cocopon/iceberg.vim'
+
+" Languages
+Plugin 'sheerun/vim-polyglot'
+Plugin 'vim-ruby/vim-ruby'
+Plugin 'tpope/vim-rails'
+Plugin 'tpope/vim-rake'
+Plugin 'tpope/vim-cucumber'
+Plugin 'thoughtbot/vim-rspec'
+Plugin 'pearofducks/ansible-vim'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'pangloss/vim-javascript'
+Plugin 'fatih/vim-go'
+Plugin 'ekalinin/Dockerfile.vim'
+
+call vundle#end()
+filetype plugin indent on
 
 set encoding=utf-8
 
 " Backups
 set backup
-set backupdir=~/.vim-tmp,~/.tmp,/var/tmp,/tmp
-set directory=~/.vim-tmp,~/.tmp,/var/tmp,/tmp
+set backupdir=~/.vim/tmp,/var/tmp,/tmp
+set directory=~/.vim/tmp,/var/tmp,/tmp
 
 syntax enable
 set modeline           " Modelines (comments that set vim options on a per-file basis)
 set nohidden           " Do not let to change buffers without saving
 set autoread           " Automatically reload changes if detected
-set history=10000      " Number of things to remember in history
+set history=1000       " Number of things to remember in history
 set undolevels=700     " More undo levels
 set confirm            " Confirmation instead of fails on e.g. :q
 set clipboard+=unnamed " Yanks go on clipboard instead
@@ -27,6 +80,8 @@ set autowrite          " Writes on make/shell commands
 set timeoutlen=500     " Time to wait for a command
 set foldlevelstart=99  " No folds closed on start
 set showmode           " Show mode at the bottom
+set infercase          " Completion recognizes capitalization
+set shortmess+=A       " Don't bother me when a swapfile exists
 set ttyfast
 set diffopt+=iwhite
 
@@ -60,8 +115,8 @@ set complete+=U
 
 set linespace=1    " in pixels
 if has('gui_macvim')
-  set guifont=Hack:h14
-  set linespace=-3 " fix Inconsolata LGC
+  set guifont=Hack:h17
+  " set linespace=-3 " fix Inconsolata LGC
   set macmeta      " Use option (alt) as meta key.
 elseif has("gui_gtk2")
   set guifont=Inconsolata\ LGC\ 12
@@ -76,14 +131,21 @@ set title
 
 " Colorscheme
 set background=dark
-colorscheme gruvbox
+set termguicolors
+colorscheme hybrid
 
-set anti            " Antialias font
-set ruler           " Ruler on
-set nu              " Line numbers on
-set nowrap          " Line wrapping off
-set laststatus=2    " Always show the statusline
+set anti                " Antialias font
+set ruler               " Show row/col and percentage
+set number              " Line numbers on
+set nowrap              " Line wrapping off
+set laststatus=2        " Always show the statusline
 set cmdheight=1
+set signcolumn=yes
+
+" Disable balloon hints on mouseover
+set noballooneval
+let g:netrw_nobeval = 1
+let g:ale_set_balloons = 0
 
 " Commands autocomplete options
 set wildmode=list:longest,full
@@ -96,18 +158,15 @@ set showtabline=2   " Show tabline only if there are at least two tab pages
 set cursorline      " color current line
 set gcr=n:blinkon0  " do not blink cursor in normal mode
 
-if version >= 703
-  set colorcolumn=120
-  "set relativenumber
-  set undofile
-en
+set colorcolumn=120
+set undofile
 
 " new splits below and right
 set splitbelow
 set splitright
 
 " Menu items
-menu Encoding.UTF-8 :e ++enc=utf8 <CR>
+menu Encoding.UTF-8 :e ++enc=utf8<CR>
 menu Encoding.Windows-1251 :e ++enc=cp1251<CR>
 menu Encoding.koi8-r :e ++enc=koi8-r<CR>
 menu Encoding.cp866 :e ++enc=cp866<CR>
@@ -123,29 +182,27 @@ set tabstop=2
 set softtabstop=2
 set shiftwidth=2
 set backspace=indent,eol,start " make backspace work like most other apps
-set cindent
-set autoindent
+set cindent " Automatic program indenting
+set autoindent " Carry over indenting from previous line
 set smarttab
 set wrap            " http://vimcasts.org/episodes/soft-wrapping-text/
-set linebreak
+set linebreak       " Break long lines by word, not char
 set list            " display unprintable characters
+set listchars=tab:▸\ ,extends:›,precedes:‹,nbsp:×,trail:· " Unicode characters for various things
 set formatoptions=crqln1   " :h fo-table
-
-" Tab and EOL symbols
-if has('multi_byte')
-  if version >= 700
-    set listchars=tab:▸\ ,trail:·,extends:❯,precedes:❮,nbsp:×
-  else
-    set listchars=tab:»\ ,trail:·,extends:>,precedes:<,nbsp:_
-  endif
-endif
 
 " Show ↪ at the beginning of wrapped lines
 if has("linebreak")
   let &sbr = nr2char(8618).' '
 endif
 
-
+" Highlight trailing whitespace
+highlight ExtraWhitespace ctermbg=red guibg=red
+autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+autocmd WinEnter * match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd BufWinLeave * call clearmatches()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Folding
@@ -193,9 +250,9 @@ if version >= 700
   menu Spell.Russian :setlocal spell spelllang=ru <cr>
   menu Spell.English :setlocal spell spelllang=en <cr>
   menu Spell.-SpellControl- :
-  menu Spell.Word\ Suggest<Tab>z= z=
-  menu Spell.Previous\ Wrong\ Word<Tab>[s [s
-  menu Spell.Next\ Wrong\ Word<Tab>]s ]s
+  " menu Spell.Word\ Suggest<Tab>z= z=
+  " menu Spell.Previous\ Wrong\ Word<Tab>[s [s
+  " menu Spell.Next\ Wrong\ Word<Tab>]s ]s
 endif
 
 
@@ -213,6 +270,8 @@ command! W w
 command! Q q
 map <F1> <Esc>
 imap <F1> <Esc>
+map Q  <silent>
+map q: <silent>
 
 " Reselect after indenting
 vnoremap < <gv
@@ -230,8 +289,11 @@ nmap g# g#zz
 noremap j gj
 noremap k gk
 
+" key `Tab` -- switch between current/prev buffers
+nnoremap <Tab> <C-^>
+
 " key `K` -- search word under cursor with Ag
-nnoremap K :silent! Ag -i "\b<C-R><C-W>\b"<CR>:cw<CR>:redraw!<CR>
+nnoremap K :silent! Ack! -i "\b<cword>\b"<cr>
 
 " key `<C-{k,j}>` -- move lines up/down
 nmap <C-k> [e
@@ -252,10 +314,10 @@ cnoremap %% <C-R>=expand('%:p').'/'<cr>
 " show generated vimrc doc
 command! Mydoc :!$HOME/.vim/gen_doc.sh \|more
 
-" key `<,<space>>` -- clean search hl
+" key `<,<space>>` -- clean search hl and save the buffer
 nmap <leader><space> :nohlsearch<cr>
-" key `<Esc><Esc>` -- no hilight search
-nnoremap <silent> <Esc><Esc> :nohlsearch<CR><Esc>
+" key `<Enter>` -- clean search hl and save the buffer
+nmap <cr> :nohlsearch<cr>:w<cr>
 
 " key `<,sp>` -- toggle spelling mode
 nmap <leader>sp :set spell! spelllang=ru,en spell?<CR>
@@ -275,19 +337,27 @@ nnoremap <leader>s :%s##<left>
 " key `<,W>` -- fix trailing white space
 map <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
 
-" key `<,cd>` -- cd to the directory containing the file in the buffer
-nmap <silent> <leader>cd :lcd %:h<CR>
-
 " key `<,mk>` -- create the directory containing the file in the buffer
 nmap <silent> <leader>mk :!mkdir -p %:p:h<CR>
 
 " key `<,ft>` -- format markdown table
 map <leader>ft V{jo}k:s/----*/---/g<CR>gv:Align \|<CR>j:s/\(\s*\)\(:\)\?\(-*\)\(:\)\?\(\s*\)/\2\1\3\5\4/g<CR>:s/\s/-/g<CR>gv:s/---$/-----------/<CR>:noh<CR>
 
+" ctags
+" TODO: check out https://github.com/junegunn/fzf/issues/243
+" ket `<t>` -- next tag match
+nmap t <C-]>
+" ket `<T>` -- previous tag match
+nmap T :pop<CR>
+
 """" Experimental
 
-" key `<,=>` -- underline the current line with '='
-nmap <silent> <leader>= :t.\|s/./=/g\|:nohls<cr>
+" key `<U=>` -- underline the current line with '='
+nmap <silent> U= YpVr=<cr>
+" key `<U">` -- underline the current line with '"'
+nmap <silent> U" YpVr"<cr>
+" key `<Ur>` -- update underline
+nmap <silent> Ur jvyddkYpVr"<cr>
 
 " key `<,ev>` -- edit my vimrc
 nmap <leader>ev :tabedit $MYVIMRC<CR>
@@ -295,7 +365,7 @@ nmap <leader>ev :tabedit $MYVIMRC<CR>
 nmap <leader>rv :so $MYVIMRC<CR>
 
 " key `<,fef>` -- reformat the entire file
-nmap <leader>fef mQggVG=`Q
+" nmap <leader>fef mQggVG=`Q
 
 " key `<+>` -- fold code till matched bracket
 map + v%zf
@@ -305,12 +375,6 @@ nnoremap <leader>v V`]
 
 """" Tabs/buffers navigation
 
-" key `<,bl>` -- show buffers
-nmap <Leader>bl :ls<cr>:b
-
-" key `<c-tab>, <c-s-tab>` -- cycle tabs forward and backward
-nmap <c-tab> :tabnext<cr>
-nmap <c-s-tab> :tabprevious<cr>
 " key `<c-#>` -- switches to tab
 nmap <d-s-1> 1gt
 nmap <d-s-2> 2gt
@@ -375,8 +439,12 @@ if has("autocmd")
   autocmd FileType java set softtabstop=4 tabstop=4 shiftwidth=4
 
   " Ruby
-  " key `<,R>` -- (ft=ruby) !ruby %
-  autocmd FileType ruby nmap <buffer> <leader>R :w<CR>:!ruby %<TAB><CR>
+  " key `<,r>` -- (ft=ruby) .Rake
+  " key `<,R>` -- (ft=ruby) Rake
+  " key `<,rr>` -- (ft=ruby) !ruby %
+  autocmd FileType ruby nmap <buffer> <leader>r :w<CR>:.Rake<CR>
+  autocmd FileType ruby nmap <buffer> <leader>R :w<CR>:Rake<CR>
+  autocmd FileType ruby nmap <buffer> <leader>rr :w<CR>:!ruby %<TAB><CR>
 
   " Golang
   autocmd FileType go set softtabstop=4 tabstop=4 shiftwidth=4 noexpandtab
@@ -395,7 +463,71 @@ endif
 " Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" exe "source " . fnamemodify(resolve($MYVIMRC), ":p:h") . "/vium/plugins.vim"
+""" Ack
+map <leader>f :Ack!<space>
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+
+""" NerdCommenter
+let g:NERDSpaceDelims = 1
+let g:NERDCommentEmptyLines = 1
+let g:NERDTrimTrailingWhitespace = 1
+
+""" FZF
+" set rtp+=/usr/local/opt/fzf
+" map <leader>t :Files<CR>
+
+""" CtrlP
+let g:ctrlp_map = '<leader>t'
+nnoremap <silent> <leader>t :CtrlP<cr>
+nnoremap <silent> <leader>T :CtrlPTag<cr>
+map <space> :CtrlPBuffer<cr>
+let g:ctrlp_extensions = ['tag']
+if executable('ag')
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l -g ""'
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
+call ctrlp_bdelete#init()
+
+""" ALE
+let g:ale_sign_warning = '▲'
+let g:ale_sign_error = '✗'
+
+""" Deoplete
+if has('python3')
+  let g:deoplete#enable_at_startup = 1
+  let g:deoplete#disable_auto_complete = 1
+  " let g:deoplete#enable_auto_select = 1
+  let g:deoplete#enable_smart_case = 1
+  let g:deoplete#enable_yarp = 1
+
+  inoremap <silent><expr><tab>
+        \ pumvisible() ? "\<c-n>" :
+        \ <sid>check_back_space() ? "\<tab>" :
+        \ deoplete#mappings#manual_complete().deoplete#mappings#manual_complete()
+  inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+  inoremap <silent><expr><bs> pumvisible() ? deoplete#smart_close_popup() : "\<bs>"
+
+  function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+  endfunction
+endif
+
+""" Airline
+let g:airline#extensions#ale#enabled = 1
+
+""" Incsearch
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+map <leader>/ :call incsearch#call(incsearch#config#fuzzy#make())<cr>
+
+""" Gundo
+command! Gundo :GundoToggle
 
 """" Git
 command! GdiffInTab tabedit %|Gdiff
@@ -409,27 +541,6 @@ let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
 imap <C-Space> <Plug>snipMateNextOrTrigger
 smap <C-Space> <Plug>vnipMateNextOrTrigger
 
-"""" Ack
-" key `<,f>` -- :Ack
-map <leader>f :Ack<space>
-
-
-"""" ZoomWin
-" key `<,zw>` -- Toggle ZoomWin
-map <leader>zw :ZoomWin<CR>
-
-"""" Dash
-" key `<,d>` -- Toggle Dash
-map <leader>d :Dash<CR>
-
-"""" Gundo
-" key `<,u>` -- Toggle Gundo
-map <leader>u :GundoToggle<CR>
-
-"""" Kwbd
-" key `<C-W>!` -- delete buffer without closing window
-map <C-W>! <Plug>Kwbd
-
 """" Syntastic
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=2
@@ -437,20 +548,15 @@ let g:syntastic_quiet_messages = {'level': 'warnings'}
 let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
 
 """" TagBar
-" key `<,ct>` -- toggle tagbar
-map <leader>ct :TagbarToggle<CR>
-
-"""" CtrlP
-let g:ctrlp_map = '<Leader>t'
-let g:ctrlp_match_window_bottom = 1
-let g:ctrlp_match_window_reversed = 1
-let g:ctrlp_custom_ignore = '\v\~$|\.(o|swp|pyc|wav|mp3|ogg|blend)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py'
-let g:ctrlp_working_path_mode = 0
-"let g:ctrlp_user_command = 'find %s -type f'
-"let g:ctrlp_use_caching = 0
+" key `<C-Bs>` -- toggle tagbar
+map <silent> <D-Bs> :TagbarToggle<CR>:set noballooneval<CR>
 
 """" GitGutter
-let g:gitgutter_enabled = 0
+let g:gitgutter_map_keys = 0
+let g:gitgutter_sign_added = '∙'
+let g:gitgutter_sign_modified = '∙'
+let g:gitgutter_sign_removed = '∙'
+let g:gitgutter_sign_modified_removed = '∙'
 
 """" Tex
 map <C-S-space> <Plug>IMAP_JumpForward
@@ -458,21 +564,13 @@ map <C-S-space> <Plug>IMAP_JumpForward
 """" Powerline
 let g:Powerline_stl_path_style = 'short'
 
-"""" The Silver Searcher
-if executable('ag')
-  " Use ag over grep
-  set grepprg=ag\ --nogroup\ --nocolor
-
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
-endif
-
 """" Haste
 " command `Haste` pastes lines to hastebin
 command! -range=% Haste <line1>,<line2>w !haste | tee >(pbcopy)
+
+"""" JSON Prettyfy
+" command `Json` prettifies JSON
+command! Json %!ruby -rjson -e 'puts JSON.pretty_generate(JSON.parse(STDIN.read))'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NERDTree
@@ -481,7 +579,7 @@ command! -range=% Haste <line1>,<line2>w !haste | tee >(pbcopy)
 " key `<Backspace>` -- toggle NERDTree
 nnoremap <Bs> :NERDTreeToggle<CR>
 " key `<S-Backspace>` -- ':NERDTree ' prompt
-nnoremap <S-Bs> :NERDTree 
+nnoremap <S-Bs> :NERDTree  "
 " key `<,Backspace>` -- :NERDTreeFind find current file in NERDTree
 nnoremap <leader><Bs> :NERDTreeFind<CR>
 
@@ -546,3 +644,49 @@ if has('autocmd')
     endif
   endfunction
 endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" HEX Editor
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Hex mode from http://vim.wikia.com/wiki/Improved_hex_editing
+" ex command for toggling hex mode - define mapping if desired
+command! -bar Hexmode call ToggleHex()
+
+" helper function to toggle hex mode
+function! ToggleHex()
+  " hex mode should be considered a read-only operation
+  " save values for modified and read-only for restoration later,
+  " and clear the read-only flag for now
+  let l:modified=&mod
+  let l:oldreadonly=&readonly
+  let &readonly=0
+  let l:oldmodifiable=&modifiable
+  let &modifiable=1
+  if !exists("b:editHex") || !b:editHex
+    " save old options
+    let b:oldft=&ft
+    let b:oldbin=&bin
+    " set new options
+    setlocal binary " make sure it overrides any textwidth, etc.
+    let &ft="xxd"
+    " set status
+    let b:editHex=1
+    " switch to hex editor
+    %!xxd
+  else
+    " restore old options
+    let &ft=b:oldft
+    if !b:oldbin
+      setlocal nobinary
+    endif
+    " set status
+    let b:editHex=0
+    " return to normal editing
+    %!xxd -r
+  endif
+  " restore values for modified and read only state
+  let &mod=l:modified
+  let &readonly=l:oldreadonly
+  let &modifiable=l:oldmodifiable
+endfunction
