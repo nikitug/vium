@@ -30,12 +30,12 @@ Plugin 'airblade/vim-gitgutter'          " shows git changes
 Plugin 'sjl/gundo.vim'                   " undo tree :Gundo
 Plugin 'tpope/vim-projectionist'         " configure alternate files etc.
 Plugin 'Shougo/deoplete.nvim'            " complete engine
+Plugin 'zchee/deoplete-go', { 'do': 'make'}
 Plugin 'roxma/nvim-yarp'                 " required for deoplete
 Plugin 'roxma/vim-hug-neovim-rpc'        " required for deoplete
 Plugin 'tpope/vim-unimpaired'            " [b ]b etc.
 Plugin 'tpope/vim-rhubarb'               " :Gbrowse opens in GitHub
 Plugin 'vim-airline/vim-airline'         " status line
-Plugin 'tpope/vim-sleuth'                " auto tabstop etc
 Plugin 'kshenoy/vim-signature'           " marks highlight and navigation, <ma> <'a>
 
 " Colors http://vimcolors.com/
@@ -56,6 +56,7 @@ Plugin 'pearofducks/ansible-vim'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'pangloss/vim-javascript'
 Plugin 'fatih/vim-go'
+Plugin 'mdempsky/gocode', {'rtp': 'vim/'}
 Plugin 'ekalinin/Dockerfile.vim'
 
 call vundle#end()
@@ -341,7 +342,7 @@ map <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
 nmap <silent> <leader>mk :!mkdir -p %:p:h<CR>
 
 " key `<,ft>` -- format markdown table
-map <leader>ft V{jo}k:s/----*/---/g<CR>gv:Align \|<CR>j:s/\(\s*\)\(:\)\?\(-*\)\(:\)\?\(\s*\)/\2\1\3\5\4/g<CR>:s/\s/-/g<CR>gv:s/---$/-----------/<CR>:noh<CR>
+map <leader>ft V{jo}k:s/----*/---/g<CR>gv:Tabularize /\|<CR>j:s/\(\s*\)\(:\)\?\(-*\)\(:\)\?\(\s*\)/\2\1\3\5\4/g<CR>:s/\s/-/g<CR>gv:s/---$/-----------/<CR>:noh<CR>
 
 " ctags
 " TODO: check out https://github.com/junegunn/fzf/issues/243
@@ -464,7 +465,7 @@ endif
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """ Ack
-map <leader>f :Ack!<space>
+nnoremap <expr> <leader>f (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":Ack!<space>"
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
@@ -480,7 +481,7 @@ let g:NERDTrimTrailingWhitespace = 1
 
 """ CtrlP
 let g:ctrlp_map = '<leader>t'
-nnoremap <silent> <leader>t :CtrlP<cr>
+nnoremap <silent> <expr> <leader>t (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":CtrlP\<cr>"
 nnoremap <silent> <leader>T :CtrlPTag<cr>
 map <space> :CtrlPBuffer<cr>
 let g:ctrlp_extensions = ['tag']
@@ -503,6 +504,11 @@ if has('python3')
   " let g:deoplete#enable_auto_select = 1
   let g:deoplete#enable_smart_case = 1
   let g:deoplete#enable_yarp = 1
+
+  " let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
+  " let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
+
+  autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
   inoremap <silent><expr><tab>
         \ pumvisible() ? "\<c-n>" :
