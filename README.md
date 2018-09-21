@@ -16,4 +16,6 @@ ln -s ~/.vim/vimrc ~/.vimrc
 
 # install plugins
 vim +PluginInstall +qall
+
+pip3 install neovim
 ```

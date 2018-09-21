@@ -483,7 +483,7 @@ let g:NERDTrimTrailingWhitespace = 1
 let g:ctrlp_map = '<leader>t'
 nnoremap <silent> <expr> <leader>t (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":CtrlP\<cr>"
 nnoremap <silent> <leader>T :CtrlPTag<cr>
-map <space> :CtrlPBuffer<cr>
+" map <space> :CtrlPBuffer<cr>
 let g:ctrlp_extensions = ['tag']
 if executable('ag')
   " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
