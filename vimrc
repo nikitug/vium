@@ -197,14 +197,6 @@ if has("linebreak")
   let &sbr = nr2char(8618).' '
 endif
 
-" Highlight trailing whitespace
-highlight ExtraWhitespace ctermbg=red guibg=red
-autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
-match ExtraWhitespace /\s\+$/
-autocmd WinEnter * match ExtraWhitespace /\s\+$/
-autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
-autocmd BufWinLeave * call clearmatches()
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Folding
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -236,6 +228,10 @@ set nofoldenable        " Do not fold by default
 set foldlevel=1         " This is just what i use
 set fillchars="fold: "  " Remove the extrafills --------
 
+let g:xml_syntax_folding=1
+au FileType xml setlocal foldenable
+au FileType xml setlocal foldmethod=syntax
+au FileType xml setlocal foldlevel=1
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -461,8 +457,39 @@ endif
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Custom Syntax Highlights
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Highlight trailing whitespace
+highlight ExtraWhitespace ctermbg=red guibg=red
+autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+autocmd WinEnter * match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd BufWinLeave * call clearmatches()
+
+" Highlight Gitbook
+autocmd FileType markdown highlight GitbookMethodDefinition guifg=#516185
+autocmd FileType markdown highlight GitbookMethodEnd guifg=#516185
+autocmd FileType markdown highlight GitbookMethodSample guifg=#516185
+autocmd FileType markdown highlight GitbookMethodHeader guibg=#81A1B5 guifg=black gui=bold
+autocmd FileType markdown highlight GitbookMethodHeaderDashes guibg=#81A1B5 guifg=#A1C1D5 gui=bold
+autocmd FileType markdown syntax match GitbookMethodHeaderDashes /#*/ contained
+autocmd FileType markdown syntax match GitbookMethodHeader /#.*/ contained contains=GitbookMethodHeaderDashes
+autocmd FileType markdown syntax region GitbookMethodDefinition start=/^{% method %}/ end=/^#.*$/ keepend contains=GitbookMethodHeader containedin=ALL
+autocmd FileType markdown syntax match GitbookMethodEnd /^{% endmethod %}/ containedin=ALL
+autocmd FileType markdown syntax match GitbookMethodSample /^{% sample [^%]*%}/ containedin=ALL
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""" Polyglot
+let g:polyglot_disabled = ['markdown']
+
+""" Golang
+let g:go_doc_keywordprg_enabled = 0
 
 """ Ack
 nnoremap <expr> <leader>f (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":Ack!<space>"
