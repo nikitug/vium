@@ -44,6 +44,8 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'morhetz/gruvbox'
 Plugin 'w0ng/vim-hybrid'
 Plugin 'cocopon/iceberg.vim'
+Plugin 'kristijanhusak/vim-hybrid-material'
+Plugin 'vim-airline/vim-airline-themes'
 
 " Languages
 Plugin 'sheerun/vim-polyglot'
@@ -51,11 +53,12 @@ Plugin 'vim-ruby/vim-ruby'
 Plugin 'tpope/vim-rails'
 Plugin 'tpope/vim-rake'
 Plugin 'tpope/vim-cucumber'
-Plugin 'thoughtbot/vim-rspec'
+Plugin 'janko-m/vim-test'
 Plugin 'pearofducks/ansible-vim'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'pangloss/vim-javascript'
 Plugin 'fatih/vim-go'
+Plugin 'udalov/kotlin-vim'
 Plugin 'mdempsky/gocode', {'rtp': 'vim/'}
 Plugin 'ekalinin/Dockerfile.vim'
 
@@ -133,7 +136,7 @@ set title
 " Colorscheme
 set background=dark
 set termguicolors
-colorscheme hybrid
+colorscheme hybrid_material
 
 set anti                " Antialias font
 set ruler               " Show row/col and percentage
@@ -436,12 +439,13 @@ if has("autocmd")
   autocmd FileType java set softtabstop=4 tabstop=4 shiftwidth=4
 
   " Ruby
-  " key `<,r>` -- (ft=ruby) .Rake
-  " key `<,R>` -- (ft=ruby) Rake
-  " key `<,rr>` -- (ft=ruby) !ruby %
-  autocmd FileType ruby nmap <buffer> <leader>r :w<CR>:.Rake<CR>
-  autocmd FileType ruby nmap <buffer> <leader>R :w<CR>:Rake<CR>
-  autocmd FileType ruby nmap <buffer> <leader>rr :w<CR>:!ruby %<TAB><CR>
+  " key `<,r>` -- (ft=ruby) :TestFile
+  autocmd FileType ruby nmap <buffer> tn :w<CR>:TestNearest<CR>
+  autocmd FileType ruby nmap <buffer> tf :w<CR>:TestFile<CR>
+  autocmd FileType ruby nmap <buffer> ts :w<CR>:TestSuite<CR>
+  autocmd FileType ruby nmap <buffer> tf :w<CR>:TestFile<CR>
+  autocmd FileType ruby nmap <buffer> tl :w<CR>:TestLast<CR>
+  autocmd FileType ruby nmap <buffer> tv :w<CR>:TestVisit<CR>
 
   " Golang
   autocmd FileType go set softtabstop=4 tabstop=4 shiftwidth=4 noexpandtab
@@ -485,8 +489,12 @@ autocmd FileType markdown syntax match GitbookMethodSample /^{% sample [^%]*%}/ 
 " Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+""" Test
+let test#strategy = "vimterminal"
+" let test#strategy = "iterm"
+
 """ Polyglot
-let g:polyglot_disabled = ['markdown']
+let g:polyglot_disabled = ['markdown', 'kotlin']
 
 """ Golang
 let g:go_doc_keywordprg_enabled = 0
@@ -552,12 +560,17 @@ endif
 
 """ Airline
 let g:airline#extensions#ale#enabled = 1
+let g:airline_theme = "hybrid"
 
 """ Incsearch
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 map <leader>/ :call incsearch#call(incsearch#config#fuzzy#make())<cr>
+
+""" Fugitive
+nmap <leader>gs :Gstatus<CR><C-w>20+
+nmap <leader>gp :Gpush<CR>
 
 """ Gundo
 command! Gundo :GundoToggle
@@ -619,6 +632,25 @@ nnoremap <leader><Bs> :NERDTreeFind<CR>
 let NERDTreeIgnore=['\.pyc$', '\.pyo$', '\.rbc$', '\.rbo$', '\.class$', '\.o', '\~$']
 let NERDTreeHijackNetrw = 0
 let NERDTreeDirArrows=1 " Tells the NERD tree to use arrows instead of + ~ chars when displaying directories.
+
+" key `ff` inside NERDTree to find in path
+" call NERDTreeAddKeyMap({
+      " \ 'key': 'ff',
+      " \ 'callback': 'NERDTreeFindInPath',
+      " \ 'quickhelpText': 'open in bg tab and close tree',
+      " \ 'scope': 'DirNode' })
+" function! NERDTreeFindInPath(dirnode)
+  " echomsg 'Current node: ' . a:dirnode.path.str()
+" endfunction
+
+nnoremap KK :AckInPath! -i "\b<cword>\b"<CR>
+command! -bang -nargs=* -complete=file AckInPath call AckInPath('grep<bang>', <q-args>)
+function! AckInPath(cmd, args)
+  call inputsave()
+  let path = input('Search in path: ', expand('%:h').'/', 'dir')
+  call inputrestore()
+  call ack#Ack(a:cmd, a:args . ' ' . path)
+endfunction
 
 if has('autocmd')
   " exit nerdtree if it's the only window
