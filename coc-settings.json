@@ -1,0 +1,13 @@
+{
+  "solargraph.completion": true,
+  "solargraph.symbols": true,
+  "solargraph.definitions": true,
+  "solargraph.rename": true,
+  "solargraph.references": true,
+  "solargraph.diagnostics": false,
+  "solargraph.hover": false,
+  "solargraph.autoformat": false,
+  "solargraph.formatting": false,
+
+  "go.enable": true
+}
