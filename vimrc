@@ -28,16 +28,22 @@ Plug 'tpope/vim-endwise'                          " smart `end` apptender
 Plug 'tpope/vim-surround'                         " <cs'">, <ysiw'>, <ds'>
 Plug 'tpope/vim-fugitive'                         " Git integration
 Plug 'tpope/vim-projectionist'                    " configure alternate files etc.
-Plug 'scrooloose/nerdtree'                        " <Bs>
+Plug 'lambdalisue/fern.vim'                       " file tree
+Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+Plug 'lambdalisue/nerdfont.vim'
+Plug 'lambdalisue/glyph-palette.vim'
+Plug 'lambdalisue/fern-hijack.vim'                " hijack netrw
 Plug 'scrooloose/nerdcommenter'                   " <,c >
 Plug 'airblade/vim-gitgutter'                     " shows git changes
 Plug 'godlygeek/tabular'                          " :Tab /=\zs
-Plug 'liuchengxu/vim-clap'                        " <space>
 Plug 'mileszs/ack.vim'                            " :Ack
-Plug 'w0rp/ale'                                   " async syntax checker
+Plug 'dense-analysis/ale'                         " async syntax checker
 Plug 'liuchengxu/vista.vim'                       " tag tree
 Plug 'neoclide/coc.nvim', { 'branch': 'release' } " autocomplete
 " Plug 'ap/vim-css-color'                           " it's slow, maybe I move it to on-demand loading; background colors for #000
+Plug 'SirVer/ultisnips'
+" Plug 'honza/vim-snippets'
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' } " <space>
 
 " Colors http://vimcolors.com/
 Plug 'kristijanhusak/vim-hybrid-material'
@@ -49,15 +55,12 @@ Plug 'tpope/vim-rails'
 Plug 'tpope/vim-rake'
 Plug 'tpope/vim-bundler'
 Plug 'tpope/vim-cucumber'
-Plug 'plasticboy/vim-markdown'
+" Plug 'plasticboy/vim-markdown'
 Plug 'pearofducks/ansible-vim'
-
-" Always load the vim-devicons as the very last one.
-Plug 'ryanoasis/vim-devicons' " icons in nerdtree
+Plug 'pangloss/vim-javascript'
+Plug 'teal-language/vim-teal'
 
 call plug#end()
-
-filetype plugin indent on
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -68,7 +71,7 @@ filetype plugin indent on
 " updatecount (200 keystrokes) and updatetime
 " (4 seconds) are fine
 set swapfile
-set directory^=~/.vim/swap//
+set directory=~/.vim/swap//
 
 " protect against crash-during-write
 set writebackup
@@ -78,11 +81,11 @@ set nobackup
 set backupcopy=auto
 " consolidate the writebackups -- not a big
 " deal either way, since they usually get deleted
-set backupdir^=~/.vim/backup//
+set backupdir=~/.vim/backup//
 
 " persist the undo tree for each file
 set undofile
-set undodir^=~/.vim/undo//
+set undodir=~/.vim/undo//
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -132,6 +135,14 @@ set mouseshape=s:udsizing,m:no " turn to a sizing arrow over the status liness
 " Complete options
 set complete+=U
 
+" Russian support
+set keymap=russian-jcukenwin
+set iminsert=0 " Insert mode in english by default
+set imsearch=0 " Search in english by default
+inoremap <C-space> <C-^>
+" https://stackoverflow.com/questions/7722177/how-do-i-map-ctrl-x-ctrl-o-to-ctrl-space-in-terminal-vim/7725796#7725796
+inoremap <C-@> <C-^>
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " User Interface
@@ -145,8 +156,9 @@ set statusline=%<%f\ (%{&ft})\ %-4(%m%)%{FugitiveStatusline()}%=%-19(%l/%L,%02c%
 " Colorscheme
 set background=dark
 set termguicolors
-colorscheme hybrid_material
+colorscheme hybrid_changed
 highlight SignColumn guibg=NONE ctermbg=NONE
+highlight lCursor guifg=Cyan guibg=Cyan
 
 set ruler           " Show row/col and percentage
 set number          " Line numbers on
@@ -159,7 +171,7 @@ set matchtime=2     " How many tenths of a second to blink
 set showcmd         " Show command in the last line
 set showtabline=2   " Show tabline only if there are at least two tab pages
 set cursorline      " color current line
-set colorcolumn=120
+set colorcolumn=100
 
 if !has('nvim')
   set anti              " Antialias font
@@ -284,7 +296,7 @@ noremap k gk
 nnoremap <Tab> <C-^>
 
 " key `K` -- search word under cursor with Ag
-nnoremap K :silent! Ack! -i "\b<cword>\b"<cr>
+nnoremap K :silent! Ack! --hidden -i "\b<cword>\b"<cr>
 
 " key `<C-{k,j}>` -- move lines up/down
 nmap <C-k> [e
@@ -370,15 +382,19 @@ nmap <d-9> 9gt
 nmap <c-s> gt
 nmap <c-q> gT
 
+" Next quickfix file
+nmap <leader>n :cn<CR>
+
 " Copies filename to clipboard
 command! CopyFilename :let @*=expand("%:p")
 " Removes trailing whitespaces
 command! RemoveTrailingWhitespaces :%s/\s*$//
 
 " Vimrc editing
-command! EditVimrc :tabedit $HOME/.vimrc
-command! ReloadVimrc :so $HOME/.vimrc
+command! EditVimrc :tabedit $HOME/.vim/vimrc
+command! ReloadVimrc :so $HOME/.vim/vimrc
 " Git shortcuts
+nmap <space>B :NewBranch 
 command! -nargs=1 NewBranch :Git checkout -b <args>
 command! GitPush :!git push origin HEAD
 command! GitPushForce :!git push -f origin HEAD
@@ -427,6 +443,7 @@ autocmd BufNewFile,BufRead *.md.erb set ft=markdown
 autocmd FileType python set softtabstop=4 tabstop=4 shiftwidth=4
 autocmd FileType php set softtabstop=4 tabstop=4 shiftwidth=4
 autocmd FileType java set softtabstop=4 tabstop=4 shiftwidth=4
+autocmd FileType sh set softtabstop=4 tabstop=4 shiftwidth=4
 
 " Ruby
 " key `<,r>` -- (ft=ruby) :TestFile
@@ -436,6 +453,7 @@ autocmd FileType ruby nmap <buffer> ts :w<CR>:TestSuite<CR>
 autocmd FileType ruby nmap <buffer> tf :w<CR>:TestFile<CR>
 autocmd FileType ruby nmap <buffer> tl :w<CR>:TestLast<CR>
 autocmd FileType ruby nmap <buffer> tv :w<CR>:TestVisit<CR>
+autocmd BufNewFile,BufRead Dangerfile set ft=ruby
 
 " Golang
 autocmd FileType go set softtabstop=4 tabstop=4 shiftwidth=4 noexpandtab
@@ -443,6 +461,12 @@ autocmd FileType godoc set softtabstop=8 tabstop=8 shiftwidth=8 noexpandtab
 " key `<,R>` -- (ft=go) !go run %
 autocmd FileType go nmap <buffer> <leader>R :w<CR>:!go run %<TAB><CR>
 autocmd FileType go set listchars=tab:\ \ ,trail:·,extends:❯,precedes:❮,nbsp:×
+
+" Lua
+autocmd FileType lua nnoremap <leader>r :ter ++kill=kill lua-spec %:p<CR>
+autocmd FileType lua autocmd TerminalOpen * nnoremap <buffer> <c-c> :bw!<CR>
+autocmd FileType lua command! GotoSpec :execute "e ".system("find-lua-spec ".expand("%"))
+autocmd FileType lua command! GotoTest :execute "e ".system("find-lua-spec ".expand("%"))
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -477,6 +501,15 @@ let g:rails_projections = {
       \ "app/components/*_component.html.erb": {
       \   "related": "app/components/{}_component.rb"
       \ }}
+let g:projectionist_heuristics = {
+      \ "*.lua": {
+      \   "src/*.lua": {
+      \     "alternate": "spec/{}_spec.lua"
+      \   },
+      \   "spec/*_spec.lua": {
+      \     "alternate": "src/{}.lua"
+      \   }
+      \ }}
 
 """ COC
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
@@ -490,6 +523,10 @@ function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+
+imap <C-j> <Plug>(coc-snippets-expand-jump)
+" let g:coc_snippet_next = '<tab>'
+" let g:coc_snippet_prev = '<s-tab>'
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
@@ -518,24 +555,30 @@ inoremap <nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(
 let g:clap_disable_run_rooter = v:true
 let g:clap_layout = { 'relative': 'editor', 'width': '100%', 'height': '50%', 'row': 3, 'col': 0 }
 let g:clap_preview_size = 7
-nnoremap <silent> <expr> <leader>t (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":Clap files\<cr>"
-map <leader>t :Clap files<CR>
+let g:clap_preview_direction = 'UD'
 
 nmap <space><space> :Clap<cr>
-nmap <space>g :Clap git_files<cr>
-nmap <space>f :Clap files<cr>
+nmap <space>g :Clap grep2<cr>
+nmap <space>f :Clap files --hidden<cr>
+nnoremap <silent> <expr> <space>f (expand('%') =~ 'fern' ? "\<c-w>\<c-w>" : '').":Clap files --hidden\<cr>"
 nmap <space>t :Clap tags<cr>
 nmap <space>T :Clap proj_tags<cr>
 nmap <space>j :Clap jumps<cr>
 nmap <space>h :Clap help_tags<cr>
 nmap <space>y :Clap yanks<cr>
 nmap <space>b :Clap git_branch<cr>
-nmap <space>B :NewBranch 
+nmap <space>d :Clap directories<CR>
+nmap <space>D :Clap directories<CR>
 map \ :Clap command<CR>
 
 let g:clap_provider_git_branch = {
-      \ 'source': 'git branch --format=''%(refname:short)''',
+      \ 'source': 'git branch --format=''%(refname:short)'' --sort=-committerdate',
       \ 'sink': 'silent Git checkout',
+      \ }
+
+let g:clap_provider_directories = {
+      \ 'source': 'find . -type d',
+      \ 'sink': 'e',
       \ }
 
 autocmd Syntax clap_files exec 'syntax match ClapIcon' '/^.*\s/' 'contained'
@@ -551,12 +594,15 @@ let test#strategy = "vimterminal"
 let g:go_doc_keywordprg_enabled = 0
 
 """ Ack
-nnoremap <expr> <leader>f (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":Ack!<space>"
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
+if executable('rg')
+  let g:ackprg = 'rg --vimgrep'
+endif
 
 """ NerdCommenter
+let g:NERDDefaultAlign = 'left'
 let g:NERDSpaceDelims = 1
 let g:NERDCommentEmptyLines = 1
 let g:NERDTrimTrailingWhitespace = 1
@@ -578,7 +624,7 @@ map g/ <Plug>(incsearch-stay)
 map <leader>/ :call incsearch#call(incsearch#config#fuzzy#make())<cr>
 
 """ Fugitive
-nmap <leader>gs :tab Gstatus<CR><C-w>20+
+nmap <leader>gs :tab Git<CR><C-w>20+
 nmap <leader>gp :!git push origin HEAD<CR>
 
 """ Gundo
@@ -588,6 +634,7 @@ command! Gundo :GundoToggle
 command! GdiffInTab tabedit %|Gdiff
 " key `<,D>` -- Git diff in tab
 nnoremap <leader>D :GdiffInTab<cr>
+command! GitPull :Git pull
 
 """" CSApprox
 let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
@@ -627,105 +674,46 @@ command! -range=% Haste <line1>,<line2>w !haste | tee >(pbcopy)
 " command `Json` prettifies JSON
 command! Json %!ruby -rjson -e 'puts JSON.pretty_generate(JSON.parse(STDIN.read))'
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" NERDTree
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols = {} " needed
-let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['erb'] = ''
+" Fix brackets paste in cmd lines
+augroup DisablePasteInCommandLine
+    autocmd!
+    autocmd CmdlineEnter * :set nopaste
+augroup END
 
-" Colors for icons
-function! s:highlight_nerdtree_icon(name, pattern, color)
-  exec 'syntax match NERDTreeFlags_'.a:name.' "'.a:pattern.'" containedin=NERDTreeFlags' |
-  exec 'highlight NERDTreeFlags_'.a:name.' guibg=NONE ctermbg=NONE guifg='.a:color
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Fern
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap <Bs> :Fern . -drawer -toggle<CR>
+nnoremap <leader><Bs> :Fern . -reveal=% -drawer<CR>
+let g:fern#renderer = "nerdfont"
+let g:fern#default_exclude = '^.DS_Store\|.coverage$'
+function s:init_fern_mappings()
+  nmap <buffer> <Bs> :Fern . -drawer -toggle<CR>
+  nmap <buffer> z <Plug>(fern-action-zoom:half)
+  nmap <buffer> o <Plug>(fern-action-open)
+  nmap <buffer> i <Plug>(fern-action-open:below)
+  nmap <buffer> - <Plug>(fern-action-mark)j
+  nmap <buffer> <CR> <Plug>(fern-action-cd)<Plug>(fern-action-enter)
+  nmap <buffer> u <Plug>(fern-action-leave)<Plug>(fern-action-cd:root)
+  nmap <buffer> <2-LeftMouse> <Plug>(fern-action-open)
+  " nmap <buffer> R <Plug>(fern-action-reload:all)
 endfunction
-autocmd Syntax * highlight NERDTreeFlags guibg=NONE ctermbg=NONE guifg=#677787 |
-               \ call s:highlight_nerdtree_icon('folder', '\v'.g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol, '#31526e')
-               " \ call s:highlight_nerdtree_icon('folder', '\v'.g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol.'\ze.*app', '#31526e')
+augroup fern
+  autocmd! *
+  autocmd FileType fern call glyph_palette#apply()
+  autocmd FileType fern call s:init_fern_mappings()
+augroup END
 
-" key `<Backspace>` -- toggle NERDTree
-nnoremap <Bs> :NERDTreeToggle<CR>
-" key `<S-Backspace>` -- ':NERDTree ' prompt
-nnoremap <S-Bs> :NERDTree  "
-" key `<,Backspace>` -- :NERDTreeFind find current file in NERDTree
-nnoremap <leader><Bs> :NERDTreeFind<CR>
+let g:nerdfont#path#extension#customs = { 'tl': '' }
+let g:glyph_palette#palette = copy(g:glyph_palette#defaults#palette)
+let g:glyph_palette#palette['GlyphPalette6'] += ['']
 
-let NERDTreeIgnore=['\.pyc$', '\.pyo$', '\.rbc$', '\.rbo$', '\.class$', '\.o', '\~$', '\.DS_Store']
-let NERDTreeHijackNetrw = 0
-let NERDTreeDirArrows=1 " Tells the NERD tree to use arrows instead of + ~ chars when displaying directories.
-
-" key `ff` inside NERDTree to find in path
-" call NERDTreeAddKeyMap({
-      " \ 'key': 'ff',
-      " \ 'callback': 'NERDTreeFindInPath',
-      " \ 'quickhelpText': 'open in bg tab and close tree',
-      " \ 'scope': 'DirNode' })
-" function! NERDTreeFindInPath(dirnode)
-  " echomsg 'Current node: ' . a:dirnode.path.str()
 " endfunction
 
-nnoremap KK :AckInPath! -i "\b<cword>\b"<CR>
-command! -bang -nargs=* -complete=file AckInPath call AckInPath('grep<bang>', <q-args>)
-function! AckInPath(cmd, args)
-  call inputsave()
-  let path = input('Search in path: ', expand('%:h').'/', 'dir')
-  call inputrestore()
-  call ack#Ack(a:cmd, a:args . ' ' . path)
-endfunction
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Ultisnips
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:UltiSnipsExpandTrigger="<c-enter>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
-if has('autocmd')
-  " exit nerdtree if it's the only window
-  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-
-  augroup AuNERDTreeCmd
-  autocmd AuNERDTreeCmd VimEnter * call s:CdIfDirectory(expand("<amatch>"))
-
-  " If the parameter is a directory, cd into it
-  function! s:CdIfDirectory(directory)
-    let explicitDirectory = isdirectory(a:directory)
-    let directory = explicitDirectory || empty(a:directory)
-
-    if explicitDirectory
-      exe "cd " . fnameescape(a:directory)
-    endif
-
-    " Allows reading from stdin
-    " ex: git diff | mvim -R -
-    if strlen(a:directory) == 0
-      return
-    endif
-
-    if directory
-      "NERDTree
-      "wincmd p
-      bd
-    endif
-
-    "if explicitDirectory
-      "wincmd p
-    "endif
-  endfunction
-
-  " NERDTree utility function
-  function! s:UpdateNERDTree(...)
-    let stay = 0
-
-    if(exists("a:1"))
-      let stay = a:1
-    end
-
-    if exists("t:NERDTreeBufName")
-      let nr = bufwinnr(t:NERDTreeBufName)
-      if nr != -1
-        exe nr . "wincmd w"
-        exe substitute(mapcheck("R"), "<CR>", "", "")
-        if !stay
-          wincmd p
-        end
-      endif
-    endif
-
-    if exists(":CommandTFlush") == 2
-      CommandTFlush
-    endif
-  endfunction
-endif
